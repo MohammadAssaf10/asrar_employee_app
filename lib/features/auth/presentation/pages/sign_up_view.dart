@@ -1,4 +1,3 @@
-import 'package:asrar_employee_app/features/auth/domain/entities/entities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,6 +5,7 @@ import '../../../../config/color_manager.dart';
 import '../../../../config/strings_manager.dart';
 import '../../../../config/app_localizations.dart';
 import '../../../../config/values_manager.dart';
+import '../../domain/entities/entities.dart';
 import '../common/widgets.dart';
 
 class SignIn extends StatelessWidget {
