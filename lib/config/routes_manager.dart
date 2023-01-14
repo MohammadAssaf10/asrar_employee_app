@@ -26,7 +26,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: ((context) => const Auth()));
 
       case Routes.signIn:
-        return MaterialPageRoute(builder: ((context) => const SignIn()));
+        return MaterialPageRoute(builder: ((context) =>  SignIn()));
 
       default:
         return unDefinedRoute();

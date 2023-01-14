@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../config/color_manager.dart';
 import '../../../../config/strings_manager.dart';
@@ -75,14 +76,15 @@ class TextFrom extends StatelessWidget {
 }
 
 class FileButton extends StatelessWidget {
-  const FileButton({
+  FileButton({
     Key? key,
     required this.text,
-    this.onPressed,
+    this.onChange,
   }) : super(key: key);
 
   final String text;
-  final Function? onPressed;
+  final Function(XFile?)? onChange;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +96,10 @@ class FileButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSize.s12.r),
       ),
       child: TextButton(
-        onPressed: () {
-          onPressed;
+        onPressed: () async {
+          if (onChange != null) {
+            onChange!(await _picker.pickImage(source: ImageSource.camera));
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
