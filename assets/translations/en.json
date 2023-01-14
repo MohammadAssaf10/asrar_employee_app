@@ -1,6 +1,7 @@
 {
   "sign_in": "Sign in",
   "sign_up": "Sign up",
+  "register_new_account": "register new account",
   "sign_out": "Sign out",
   "sign_up_now": "Sign up now",
   "forget_your_password": "Forget your password",
@@ -11,6 +12,7 @@
   "please_enter_password": "please enter password",
   "short_password": "Short password",
   "name": "Name",
+  "user_name": "user name",
   "mobile_number": "Phone number",
   "please_enter_name": "Please enter name",
   "already_have_account": "Already have account",
