@@ -5,10 +5,13 @@ class AppStrings {
   static const String signIn = "sign_in";
   static const String signUp = "sign_up";
   static const String registerNewAccount = "register_new_account";
+  static const String registerNow = "registerNow";
   static const String signOut = "sign_out";
   static const String signUpNow = "sign_up_now";
   static const String forgetYourPassword = "forget_your_password";
   static const String notHaveAccountYet = "not_have_account_yet";
+  static const String idNumber = "idNumber";
+  static const String nationality = "nationality";
   static const String email = "email";
   static const String password = "password";
   static const String pleaseEnterEmail = "please_enter_email";
@@ -36,6 +39,13 @@ class AppStrings {
   static const String newPassword = "new_password";
   static const String resetEmailSendMessage =
       "we_send_you_an_email_please_check_your_email_address";
+  static const String toRegisterWithUsPleaseFill = "toRegisterWithUsPleaseFill";
+  static const String id = "id";
+  static const String address = "address";
+  static const String personalPhoto = "personalPhoto";
+  static const String bankIBANCertificate = "bankIBANCertificate";
+  static const String commercialRegistryInstitutions = "CommercialRegistryInstitutions";
+  static const String pictureOfTheHeadquarters = "pictureOfTheHeadquarters";
 
   // home
   static const String asrar = "asrar";

@@ -9,6 +9,7 @@ import 'values_manager.dart';
 ThemeData getApplicationTheme() {
   return ThemeData(
     scaffoldBackgroundColor: ColorManager.backgroundColor,
+
     // app bar theme
     appBarTheme: AppBarTheme(
       backgroundColor: ColorManager.primary,
@@ -24,6 +25,12 @@ ThemeData getApplicationTheme() {
       titleTextStyle: getAlmaraiRegularStyle(
           fontSize: AppSize.s16.sp, color: ColorManager.white),
     ),
+
+    // text theme
+    textTheme: TextTheme(
+      titleLarge: TextStyle(fontSize: 30.sp),
+    ),
+
     // input decoration theme (text form field)
     errorColor: ColorManager.error,
     inputDecorationTheme: InputDecorationTheme(
@@ -36,26 +43,27 @@ ThemeData getApplicationTheme() {
           color: ColorManager.error, fontSize: AppSize.s16.sp),
 
       // enabled border style
-      enabledBorder: InputBorder.none,
+      enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: ColorManager.grey),
+        borderRadius: BorderRadius.all(Radius.circular(AppSize.s12.r)),
+      ),
+
       // focused border style
-      focusedBorder: InputBorder.none,
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: ColorManager.primary),
+        borderRadius: BorderRadius.all(Radius.circular(AppSize.s12.r)),
+      ),
       // error border style
       errorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: ColorManager.error, width: AppSize.s1.w),
-        borderRadius: BorderRadius.all(
-          Radius.circular(AppSize.s20.r),
-        ),
+        borderSide: const BorderSide(color: ColorManager.error),
+        borderRadius: BorderRadius.all(Radius.circular(AppSize.s12.r)),
       ),
       // focused border style
-      focusedErrorBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: ColorManager.error, width: AppSize.s1.w),
-        borderRadius: BorderRadius.all(
-          Radius.circular(AppSize.s20.r),
-        ),
-      ),
     ),
+
     // icon theme
     iconTheme: IconThemeData(color: ColorManager.white, size: AppSize.s25.sp),
+
     // text button
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
@@ -79,6 +87,7 @@ ThemeData getApplicationTheme() {
         }),
       ),
     ),
+
     // elevated button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -119,6 +128,7 @@ ThemeData getApplicationTheme() {
         ),
       ),
     ),
+
     // outline button
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(

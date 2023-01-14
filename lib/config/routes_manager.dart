@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../features/auth/presentation/pages/auth_view.dart';
+import '../features/auth/presentation/pages/sign_up_view.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
 
@@ -12,6 +13,7 @@ class Routes {
 
   // auth rotes
   static const String auth = '/auth';
+  static const String signIn = '/signIn';
 }
 
 class RouteGenerator {
@@ -22,6 +24,9 @@ class RouteGenerator {
 
       case Routes.auth:
         return MaterialPageRoute(builder: ((context) => const Auth()));
+
+      case Routes.signIn:
+        return MaterialPageRoute(builder: ((context) => const SignIn()));
 
       default:
         return unDefinedRoute();

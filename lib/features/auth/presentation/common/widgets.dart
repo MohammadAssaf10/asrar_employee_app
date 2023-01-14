@@ -11,16 +11,17 @@ class TextFrom extends StatelessWidget {
   const TextFrom({
     Key? key,
     this.validator,
-    required this.icon,
+    this.icon,
     required this.label,
     this.onChange,
     this.keyboardType,
     this.controller,
-    this.onFieldSubmitted, this.onTap,
+    this.onFieldSubmitted,
+    this.onTap,
   }) : super(key: key);
 
   final String? Function(String?)? validator;
-  final IconData icon;
+  final IconData? icon;
   final String label;
   final Function(String)? onChange;
   final Function(String)? onFieldSubmitted;
@@ -30,29 +31,91 @@ class TextFrom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onTap: onTap,
-      onFieldSubmitted: onFieldSubmitted,
-      controller: controller,
-      validator: validator,
-      keyboardType: keyboardType,
-      onChanged: onChange,
-      style: TextStyle(fontSize: AppSize.s16.sp),
-      decoration: InputDecoration(
-          errorStyle: TextStyle(fontSize: 14.sp),
-          label: Row(
-            children: [
-              Icon(
-                icon,
-                color: ColorManager.grey,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: AppSize.s8.w, vertical: AppSize.s8.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+            child: Text(
+              label,
+              style: TextStyle(color: ColorManager.white, fontSize: 16.sp),
+            ),
+          ),
+          TextFormField(
+            onTap: onTap,
+            onFieldSubmitted: onFieldSubmitted,
+            controller: controller,
+            validator: validator,
+            keyboardType: keyboardType,
+            onChanged: onChange,
+            style: TextStyle(fontSize: AppSize.s16.sp),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: ColorManager.white,
+              enabledBorder: Theme.of(context)
+                  .inputDecorationTheme
+                  .enabledBorder!
+                  .copyWith(
+                      borderSide: const BorderSide(color: Colors.transparent)),
+              focusedBorder: Theme.of(context)
+                  .inputDecorationTheme
+                  .focusedBorder!
+                  .copyWith(
+                      borderSide: const BorderSide(color: Colors.transparent)),
+              errorStyle: TextStyle(fontSize: 14.sp),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class FileButton extends StatelessWidget {
+  const FileButton({
+    Key? key,
+    required this.text,
+    this.onPressed,
+  }) : super(key: key);
+
+  final String text;
+  final Function? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+          horizontal: AppSize.s8.w, vertical: AppSize.s8.h),
+      decoration: BoxDecoration(
+        color: ColorManager.white,
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+      ),
+      child: TextButton(
+        onPressed: () {
+          onPressed;
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: AppSize.s200.w,
+              child: Text(
+                text,
+                softWrap: true,
+                style: const TextStyle(
+                    color: ColorManager.black, fontSize: AppSize.s14),
               ),
-              Text(
-                label,
-                style: TextStyle(
-                    color: ColorManager.grey, fontSize: AppSize.s16.sp),
-              ),
-            ],
-          )),
+            ),
+            const Icon(
+              Icons.photo,
+              color: ColorManager.black,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -78,7 +141,7 @@ class FullElevatedButton extends StatelessWidget {
 }
 
 class AuthSwitcher extends StatefulWidget {
-  AuthSwitcher({required this.onChange, super.key});
+  const AuthSwitcher({required this.onChange, super.key});
 
   @override
   State<AuthSwitcher> createState() => _AuthSwitcherState();
