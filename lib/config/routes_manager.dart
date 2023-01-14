@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
-
+import '../features/auth/presentation/pages/auth_view.dart';
+import '../splash.dart';
 import 'strings_manager.dart';
 
 class Routes {
   // home route
-  static const String homeRoute = "/";
+  static const String splashRoute = "/";
+
+  static const String homeRoute = "/home";
 
   // auth rotes
-  static const String loginRoute = '/login';
-  static const String registerRoute = '/register';
-  static const String resetPassword = '/resetPassword';
+  static const String auth = '/auth';
 }
 
 class RouteGenerator {
   static Route getRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.splashRoute:
+        return MaterialPageRoute(builder: ((context) => const SplashScreen()));
+
+      case Routes.auth:
+        return MaterialPageRoute(builder: ((context) => const Auth()));
 
       default:
         return unDefinedRoute();
@@ -26,11 +32,11 @@ class RouteGenerator {
     return MaterialPageRoute(
       builder: (_) => Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             AppStrings.noRouteFound,
           ),
         ),
-        body: Center(
+        body: const Center(
           child: Text(AppStrings.noRouteFound),
         ),
       ),
