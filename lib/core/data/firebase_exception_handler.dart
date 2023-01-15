@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../../config/strings_manager.dart';
 import 'exception_handler.dart';
 import 'failure.dart';
@@ -17,7 +19,9 @@ extension FirebaseExceptionsExtension on FirebaseExceptions {
 
 class FirebaseExceptionHandler {
   static FirebaseExceptions handle(e) {
-    print(e);
+    if (kDebugMode) {
+      print(e);
+    }
     FirebaseExceptions status;
 
     switch (e.code) {

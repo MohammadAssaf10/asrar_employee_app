@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -75,16 +77,23 @@ class TextFrom extends StatelessWidget {
   }
 }
 
-class FileButton extends StatelessWidget {
-  FileButton({
+class FileButton extends StatefulWidget {
+  const FileButton({
     Key? key,
     required this.text,
     this.onChange,
   }) : super(key: key);
 
   final String text;
-  final Function(XFile?)? onChange;
+  final Function(File?)? onChange;
+
+  @override
+  State<FileButton> createState() => _FileButtonState();
+}
+
+class _FileButtonState extends State<FileButton> {
   final ImagePicker _picker = ImagePicker();
+  XFile? _image;
 
   @override
   Widget build(BuildContext context) {
@@ -97,26 +106,56 @@ class FileButton extends StatelessWidget {
       ),
       child: TextButton(
         onPressed: () async {
-          if (onChange != null) {
-            onChange!(await _picker.pickImage(source: ImageSource.camera));
+          var image = await _picker.pickImage(source: ImageSource.camera);
+
+          //  todo delete the fucking fuck fuuuuuuuuuuuckkkkk
+          //if (image != null) {
+          //   String imagePath =
+          //       await saveFile(File(image.path), 'personalDoc/${image.name}');
+          //   image = File(imagePath);
+          //   if (widget.onChange != null) {
+          //     widget.onChange!(image);
+          //   }
+          // }
+
+          if (widget.onChange != null) {
+            if (image != null) {
+              widget.onChange!(File(image.path));
+            } else {
+              widget.onChange!(null);
+            }
           }
+
+          setState(() {
+            _image = image;
+          });
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: AppSize.s200.w,
+            Expanded(
               child: Text(
-                text,
+                widget.text,
                 softWrap: true,
+                maxLines: 3,
                 style: const TextStyle(
                     color: ColorManager.black, fontSize: AppSize.s14),
               ),
             ),
-            const Icon(
-              Icons.photo,
-              color: ColorManager.black,
-            )
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (_image != null)
+                  SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Image.file(File(_image!.path))),
+                const Icon(
+                  Icons.photo,
+                  color: ColorManager.black,
+                )
+              ],
+            ),
           ],
         ),
       ),

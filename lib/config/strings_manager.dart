@@ -2,6 +2,7 @@ class AppStrings {
   static const String noRouteFound = "404";
 
   // auth
+  static const String helloText = "helloText";
   static const String signIn = "sign_in";
   static const String signUp = "sign_up";
   static const String registerNewAccount = "register_new_account";
@@ -46,6 +47,8 @@ class AppStrings {
   static const String bankIBANCertificate = "bankIBANCertificate";
   static const String commercialRegistryInstitutions = "CommercialRegistryInstitutions";
   static const String pictureOfTheHeadquarters = "pictureOfTheHeadquarters";
+  static const String enterAllImages = "enterAllImages";
+  static const String enterAllFields = "enterAllFields";
 
   // home
   static const String asrar = "asrar";
