@@ -5,10 +5,13 @@ import '../../../../config/color_manager.dart';
 import '../../../../config/strings_manager.dart';
 import '../../../../config/app_localizations.dart';
 import '../../../../config/values_manager.dart';
+import '../../domain/entities/entities.dart';
 import '../common/widgets.dart';
 
 class SignIn extends StatelessWidget {
-  const SignIn({super.key});
+  SignIn({super.key});
+
+  final EmployeeImages _images = EmployeeImages();
 
   @override
   Widget build(BuildContext context) {
@@ -50,21 +53,39 @@ class SignIn extends StatelessWidget {
                 ),
                 FileButton(
                   text: AppStrings.id.tr(context),
+                  onChange: (v) {
+                    _images.id = v;
+                  },
                 ),
                 FileButton(
                   text: AppStrings.address.tr(context),
+                  onChange: (v) {
+                    _images.address = v;
+                  },
                 ),
                 FileButton(
                   text: AppStrings.personalPhoto.tr(context),
+                  onChange: (v) {
+                    _images.personal = v;
+                  },
                 ),
                 FileButton(
                   text: AppStrings.bankIBANCertificate.tr(context),
+                  onChange: (v) {
+                    _images.bankIBAN = v;
+                  },
                 ),
                 FileButton(
                   text: AppStrings.commercialRegistryInstitutions.tr(context),
+                  onChange: (v) {
+                    _images.commercial = v;
+                  },
                 ),
                 FileButton(
                   text: AppStrings.pictureOfTheHeadquarters.tr(context),
+                  onChange: (v) {
+                    _images.headquarters = v;
+                  },
                 ),
                 SizedBox(
                   height: AppSize.s30.h,
@@ -104,5 +125,3 @@ class RegisterText extends StatelessWidget {
     );
   }
 }
-
-
