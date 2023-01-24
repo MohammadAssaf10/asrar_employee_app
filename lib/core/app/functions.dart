@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -129,12 +130,3 @@ void showCustomDialog(BuildContext context,
     );
   });
 }
-
-// todo delete the fucking fucker
-// Future<String> saveFile(File file, String name) async {
-//   final directory = await getTemporaryDirectory();
-//   final path = directory.path;
-  
-//   await File('$path/$name').writeAsBytes(file.readAsBytesSync());
-//   return '$path/image.jpg';
-// }

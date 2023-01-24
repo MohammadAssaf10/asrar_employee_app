@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/color_manager.dart';
@@ -6,7 +7,10 @@ import '../../../../config/strings_manager.dart';
 import '../../../../config/app_localizations.dart';
 import '../../../../config/values_manager.dart';
 import '../../../../core/app/functions.dart';
+import '../../data/models/requests.dart';
 import '../../domain/entities/entities.dart';
+import '../bloc/authentication_bloc.dart';
+import '../common/functions.dart';
 import '../common/widgets.dart';
 
 class SignUp extends StatefulWidget {
@@ -23,55 +27,63 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: RadialGradient(
-              center: Alignment.center,
-              focal: Alignment.topCenter,
-              radius: 4,
-              colors: [
-                ColorManager.primary,
-                Colors.white,
-              ]),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: AppSize.s30.w, vertical: AppSize.s18.h),
-            child: Center(
-                child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: AppSize.s20.h,
-                ),
-                const RegisterText(),
-                SizedBox(height: AppSize.s20.h),
-                RegisterTextForms(
-                  onChange: (v) {
-                    _textFields = v;
-                  },
-                ),
-                SizedBox(height: 10.h),
-                RegisterImagesFields(
-                  onChange: (v) {
-                    _images = v;
-                  },
-                ),
-                FullElevatedButton(
-                    onPressed: () {
-                      if (!_textFields.isAllFieldsFiled()) {
-                        showCustomDialog(context,
-                            message: AppStrings.enterAllFields.tr(context));
-                      } else if (!_images.isAllFieldsFiled()) {
-                        showCustomDialog(context,
-                            message: AppStrings.enterAllImages.tr(context));
-                      }
+      body: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: (context, state) {
+          manageDialog(context, state);
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: RadialGradient(
+                center: Alignment.center,
+                focal: Alignment.topCenter,
+                radius: 4,
+                colors: [
+                  ColorManager.primary,
+                  Colors.white,
+                ]),
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.s30.w, vertical: AppSize.s18.h),
+              child: Center(
+                  child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: AppSize.s20.h,
+                  ),
+                  const RegisterText(),
+                  SizedBox(height: AppSize.s20.h),
+                  RegisterTextForms(
+                    onChange: (v) {
+                      _textFields = v;
                     },
-                    text: AppStrings.registerNewAccount.tr(context)),
-              ],
-            )),
+                  ),
+                  SizedBox(height: 10.h),
+                  RegisterImagesFields(
+                    onChange: (v) {
+                      _images = v;
+                    },
+                  ),
+                  FullElevatedButton(
+                      onPressed: () {
+                        if (!_textFields.isAllFieldsFiled()) {
+                          showCustomDialog(context,
+                              message: AppStrings.enterAllFields.tr(context));
+                        } else if (!_images.isAllFieldsFiled()) {
+                          showCustomDialog(context,
+                              message: AppStrings.enterAllImages.tr(context));
+                        }
+                        BlocProvider.of<AuthenticationBloc>(context).add(
+                            RegisterButtonPressed(RegisterRequest.fromObject(
+                                _textFields, _images)));
+                      },
+                      text: AppStrings.registerNewAccount.tr(context)),
+                ],
+              )),
+            ),
           ),
         ),
       ),
@@ -198,11 +210,16 @@ class RegisterImagesFields extends StatelessWidget {
         FileButton(
           text: AppStrings.id.tr(context),
           onChange: (v) {
-            if (v != null) {
-              _images.id = v;
-            } else {
-              _images.id = null;
-            }
+            _images.id = v;
+
+            // todo delete
+            _images.address = v;
+            _images.personal = v;
+            _images.bankIBAN = v;
+            _images.commercial = v;
+            _images.headquarters = v;
+            //
+            
             if (onChange != null) {
               onChange!(_images);
             }
@@ -211,11 +228,8 @@ class RegisterImagesFields extends StatelessWidget {
         FileButton(
           text: AppStrings.address.tr(context),
           onChange: (v) {
-            if (v != null) {
-              _images.address = v;
-            } else {
-              _images.address = null;
-            }
+            _images.address = v;
+
             if (onChange != null) {
               onChange!(_images);
             }
@@ -224,11 +238,8 @@ class RegisterImagesFields extends StatelessWidget {
         FileButton(
           text: AppStrings.personalPhoto.tr(context),
           onChange: (v) {
-            if (v != null) {
-              _images.personal = v;
-            } else {
-              _images.personal = null;
-            }
+            _images.personal = v;
+
             if (onChange != null) {
               onChange!(_images);
             }
@@ -237,11 +248,8 @@ class RegisterImagesFields extends StatelessWidget {
         FileButton(
           text: AppStrings.bankIBANCertificate.tr(context),
           onChange: (v) {
-            if (v != null) {
-              _images.bankIBAN = v;
-            } else {
-              _images.bankIBAN = null;
-            }
+            _images.bankIBAN = v;
+
             if (onChange != null) {
               onChange!(_images);
             }
@@ -250,11 +258,8 @@ class RegisterImagesFields extends StatelessWidget {
         FileButton(
           text: AppStrings.commercialRegistryInstitutions.tr(context),
           onChange: (v) {
-            if (v != null) {
-              _images.commercial = v;
-            } else {
-              _images.commercial = null;
-            }
+            _images.commercial = v;
+
             if (onChange != null) {
               onChange!(_images);
             }
@@ -263,11 +268,8 @@ class RegisterImagesFields extends StatelessWidget {
         FileButton(
           text: AppStrings.pictureOfTheHeadquarters.tr(context),
           onChange: (v) {
-            if (v != null) {
-              _images.headquarters = v;
-            } else {
-              _images.headquarters = null;
-            }
+            _images.headquarters = v;
+
             if (onChange != null) {
               onChange!(_images);
             }

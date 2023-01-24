@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../config/strings_manager.dart';
+import '../../../config/strings_manager.dart';
 import 'exception_handler.dart';
 import 'failure.dart';
 

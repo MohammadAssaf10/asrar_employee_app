@@ -14,6 +14,10 @@ class LoginButtonPressed extends AuthenticationEvent {
   List<Object?> get props => [loginRequest];
 }
 
+class AppStarted extends AuthenticationEvent {
+  @override
+  List<Object?> get props => [];
+}
 class RegisterButtonPressed extends AuthenticationEvent {
   final RegisterRequest registerRequest;
 

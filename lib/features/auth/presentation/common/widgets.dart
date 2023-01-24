@@ -5,9 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../config/color_manager.dart';
-import '../../../../config/strings_manager.dart';
 import '../../../../config/values_manager.dart';
-import '../../../../config/app_localizations.dart';
 import 'functions.dart';
 
 class TextFrom extends StatelessWidget {
@@ -92,7 +90,6 @@ class FileButton extends StatefulWidget {
 }
 
 class _FileButtonState extends State<FileButton> {
-  final ImagePicker _picker = ImagePicker();
   XFile? _image;
 
   @override
@@ -106,17 +103,7 @@ class _FileButtonState extends State<FileButton> {
       ),
       child: TextButton(
         onPressed: () async {
-          var image = await _picker.pickImage(source: ImageSource.camera);
-
-          //  todo delete the fucking fuck fuuuuuuuuuuuckkkkk
-          //if (image != null) {
-          //   String imagePath =
-          //       await saveFile(File(image.path), 'personalDoc/${image.name}');
-          //   image = File(imagePath);
-          //   if (widget.onChange != null) {
-          //     widget.onChange!(image);
-          //   }
-          // }
+          var image = await openImagePicker(context);
 
           if (widget.onChange != null) {
             if (image != null) {
@@ -125,7 +112,6 @@ class _FileButtonState extends State<FileButton> {
               widget.onChange!(null);
             }
           }
-
           setState(() {
             _image = image;
           });
@@ -180,74 +166,5 @@ class FullElevatedButton extends StatelessWidget {
       height: AppSize.s50,
       child: ElevatedButton(onPressed: onPressed, child: Text(text)),
     );
-  }
-}
-
-class AuthSwitcher extends StatefulWidget {
-  const AuthSwitcher({required this.onChange, super.key});
-
-  @override
-  State<AuthSwitcher> createState() => _AuthSwitcherState();
-
-  final Function(bool) onChange;
-}
-
-class _AuthSwitcherState extends State<AuthSwitcher> {
-  bool _login = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-        shape: roundedBorder(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 2.w),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _login = true;
-                  });
-                  widget.onChange(_login);
-                },
-                child: Card(
-                  shape: roundedBorder(),
-                  color: _login ? ColorManager.primary : null,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: Text(
-                      AppStrings.signIn.tr(context),
-                      style:
-                          TextStyle(color: _login ? ColorManager.white : null),
-                    ),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _login = false;
-                  });
-                  widget.onChange(_login);
-                },
-                child: Card(
-                  shape: roundedBorder(),
-                  color: _login ? null : ColorManager.primary,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: Text(
-                      AppStrings.signUp.tr(context),
-                      style:
-                          TextStyle(color: _login ? null : ColorManager.white),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
   }
 }

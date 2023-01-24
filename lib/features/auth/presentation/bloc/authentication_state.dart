@@ -10,6 +10,12 @@ class AuthenticationInitial extends AuthenticationState {
 }
 
 class AuthenticationSuccess extends AuthenticationState {
+  final Employee employee;
+
+  const AuthenticationSuccess({
+    required this.employee,
+  });
+
   @override
   List<Object?> get props => [];
 }
@@ -17,6 +23,17 @@ class AuthenticationSuccess extends AuthenticationState {
 class AuthenticationInProgress extends AuthenticationState {
   @override
   List<Object?> get props => [];
+}
+
+class UploadingImages extends AuthenticationInProgress {
+  final String message;
+
+  UploadingImages({
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class ResetPasswordRequestSuccess extends AuthenticationState {

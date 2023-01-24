@@ -22,8 +22,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LanguageCubit>(create: (context)=> LanguageCubit()),
-        BlocProvider<AuthenticationBloc>(create: ((context) => AuthenticationBloc()))
+        BlocProvider<LanguageCubit>(create: (context) => LanguageCubit()),
+        BlocProvider<AuthenticationBloc>(
+            lazy: false,
+            create: (context) => AuthenticationBloc()..add(AppStarted()))
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -33,28 +35,28 @@ class MyApp extends StatelessWidget {
           return BlocBuilder<LanguageCubit, LanguageState>(
             builder: (context, state) {
               return MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      title: "اسرار",
-                      localizationsDelegates: const [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                        AppLocalizations.delegate,
-                      ],
-                      supportedLocales: const [arabicLocale, englishLocale],
-                      locale: state.locale,
-                      localeResolutionCallback: (deviceLocale, supportedLocales) {
-                        for (var locale in supportedLocales) {
-                          if (deviceLocale != null &&
-                              deviceLocale.languageCode == locale.languageCode) {
-                            return deviceLocale;
-                          }
-                        }
-                        return supportedLocales.first;
-                      },
-                      theme: getApplicationTheme(),
-                      onGenerateRoute: RouteGenerator.getRoute,
-                    );
+                debugShowCheckedModeBanner: false,
+                title: "اسرار",
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  AppLocalizations.delegate,
+                ],
+                supportedLocales: const [arabicLocale, englishLocale],
+                locale: state.locale,
+                localeResolutionCallback: (deviceLocale, supportedLocales) {
+                  for (var locale in supportedLocales) {
+                    if (deviceLocale != null &&
+                        deviceLocale.languageCode == locale.languageCode) {
+                      return deviceLocale;
+                    }
+                  }
+                  return supportedLocales.first;
+                },
+                theme: getApplicationTheme(),
+                onGenerateRoute: RouteGenerator.getRoute,
+              );
             },
           );
         },

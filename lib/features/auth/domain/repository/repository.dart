@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/data/failure.dart';
+import '../../../../core/data/exception_handlers/failure.dart';
 import '../../data/models/requests.dart';
-import '../entities/entities.dart';
+import '../entities/employee.dart';
 
-abstract class Repository {
-  Future<Either<Failure, User>> login(LoginRequest loginRequest);
-  Future<Either<Failure, User>> register(RegisterRequest registerRequest);
+abstract class AuthRepository {
+  Future<Either<Failure, Employee>> login(LoginRequest loginRequest);
+  Future<Either<Failure, Employee>> register(RegisterRequest registerRequest);
   Future<Either<Failure, void>> resetPassword(String email);
+  Future<Either<Failure, Employee?>> getCurrentUserIfExists();
 }

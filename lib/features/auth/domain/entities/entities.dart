@@ -1,12 +1,5 @@
 import 'dart:io';
 
-class User {
-  final String name;
-  final String email;
-
-  User({required this.name, required this.email});
-}
-
 class EmployeeImages {
   File? id;
   File? address;
