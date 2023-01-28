@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,7 +7,7 @@ import '../../../../core/data/repo/storage_file_repository_impl.dart';
 import '../../data/data_sources/auth_prefs.dart';
 import '../../data/models/requests.dart';
 import '../../domain/entities/employee.dart';
-import '../../domain/repository/repository.dart';
+import '../../domain/repository/auth_repository.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
@@ -23,12 +22,16 @@ class AuthenticationBloc
     // login
     on<LoginButtonPressed>((event, emit) async {
       emit(AuthenticationInProgress());
-      (await _authRepository.login(event.loginRequest)).fold((failure) {
-        emit(AuthenticationFailed(failure.message));
-      }, (employee) {
-        emit(AuthenticationSuccess(employee: employee));
-        _authPreferences.setUserLoggedIn();
-      });
+
+      (await _authRepository.login(event.loginRequest)).fold(
+        (failure) {
+          emit(AuthenticationFailed(failure.message));
+        },
+        (employee) {
+          emit(AuthenticationSuccess(employee: employee));
+          _authPreferences.setUserLoggedIn();
+        },
+      );
     });
 
     // register

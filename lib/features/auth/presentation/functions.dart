@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../config/assets_manager.dart';
-import '../../../../config/routes_manager.dart';
-import '../../../../config/strings_manager.dart';
-import '../../../../config/app_localizations.dart';
-import '../../../../core/app/functions.dart';
-import '../bloc/authentication_bloc.dart';
+import '../../../config/assets_manager.dart';
+import '../../../config/routes_manager.dart';
+import '../../../config/strings_manager.dart';
+import '../../../config/app_localizations.dart';
+import '../../../core/app/functions.dart';
+import 'bloc/authentication_bloc.dart';
 
 ShapeBorder roundedBorder({double radius = 30}) =>
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius.r));

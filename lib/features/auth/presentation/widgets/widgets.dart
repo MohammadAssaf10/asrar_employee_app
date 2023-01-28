@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../config/color_manager.dart';
 import '../../../../config/values_manager.dart';
-import 'functions.dart';
+import '../functions.dart';
 
 class TextFrom extends StatelessWidget {
   const TextFrom({
@@ -168,3 +168,4 @@ class FullElevatedButton extends StatelessWidget {
     );
   }
 }
+

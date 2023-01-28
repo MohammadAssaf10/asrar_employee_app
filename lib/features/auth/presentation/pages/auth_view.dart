@@ -6,7 +6,7 @@ import '../../../../config/routes_manager.dart';
 import '../../../../config/strings_manager.dart';
 import '../../../../config/app_localizations.dart';
 import '../../../../config/values_manager.dart';
-import '../common/widgets.dart';
+import '../widgets/widgets.dart';
 
 class Auth extends StatelessWidget {
   const Auth({super.key});
