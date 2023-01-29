@@ -69,7 +69,6 @@ extension FirebaseExceptionsExtension on FirebaseExceptions {
 
 class FirebaseExceptionHandler {
   static FirebaseExceptions handle(e) {
-    print(e);
     FirebaseExceptions status;
 
     switch (e.code) {

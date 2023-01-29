@@ -17,7 +17,7 @@ class AuthenticationSuccess extends AuthenticationState {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [employee];
 }
 
 class AuthenticationInProgress extends AuthenticationState {
