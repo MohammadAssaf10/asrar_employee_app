@@ -19,8 +19,7 @@ class AuthenticationBloc
   final AuthPreferences _authPreferences = di.instance<AuthPreferences>();
   final StorageFileRepository _fileRepository = StorageFileRepository();
 
-    static AuthenticationBloc instance = AuthenticationBloc._();
-
+  static AuthenticationBloc instance = AuthenticationBloc._();
 
   AuthenticationBloc._() : super(AuthenticationInitial()) {
     // login

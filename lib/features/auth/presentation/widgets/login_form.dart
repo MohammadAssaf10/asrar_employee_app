@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../config/app_localizations.dart';
 import '../../../../config/color_manager.dart';
+import '../../../../config/routes_manager.dart';
 import '../../../../config/strings_manager.dart';
 import '../../../../config/values_manager.dart';
 import '../../../../core/app/functions.dart';
@@ -74,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                     style: const TextStyle(color: ColorManager.grey),
                   ),
                   onPressed: () {
-                    // TODO: navigate to reset password
+                    Navigator.pushNamed(context, Routes.passwordReset);
                   },
                 )
               ],

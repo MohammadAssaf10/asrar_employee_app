@@ -29,7 +29,7 @@ manageDialog(BuildContext context, AuthenticationState state) {
       Navigator.pushReplacementNamed(context, Routes.splashRoute);
     });
   } else if (state is ResetPasswordRequestSuccess) {
-    showCustomDialog(context, message: AppStrings.resetEmailSendMessage);
+    showCustomDialog(context, message: AppStrings.resetEmailSendMessage.tr(context));
   }
 }
 

@@ -56,7 +56,6 @@ class FirebaseAuthHelper {
   }
 
   Future<void> resetPassword(String email) async {
-    // TODO
-    throw UnimplementedError();
+    _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 }
