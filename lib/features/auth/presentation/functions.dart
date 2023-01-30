@@ -4,7 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../config/assets_manager.dart';
-import '../../../config/routes_manager.dart';
 import '../../../config/strings_manager.dart';
 import '../../../config/app_localizations.dart';
 import '../../../core/app/functions.dart';
