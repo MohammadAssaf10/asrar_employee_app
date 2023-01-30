@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -45,62 +47,28 @@ class AuthenticationBloc
           (failure) {
         emit(AuthenticationFailed(failure.message));
       }, (employee) async {
-        const employees = 'employees';
-        final String thisEmployeePath = event.registerRequest.email;
+        bool success = true;
 
-        emit(UploadingImages(message: "0/6"));
+        final List<UploadFileParams> uploads = _getUploadingFileList(event);
 
-        (await _fileRepository.uploadFile(event.registerRequest.id,
-                '$employees/$thisEmployeePath/id.${event.registerRequest.id.getExtension()}'))
-            .fold((l) {
-          emit(AuthenticationFailed(l.message));
-        }, (r) {
-          emit(UploadingImages(message: "1/6"));
-        });
+        for (int i = 0; i < uploads.length; i++) {
+          if (!success) return;
 
-        (await _fileRepository.uploadFile(event.registerRequest.address,
-                '$employees/$thisEmployeePath/address.${event.registerRequest.address.getExtension()}'))
-            .fold(((l) {
-          emit(AuthenticationFailed(l.message));
-        }), ((r) {
-          emit(UploadingImages(message: "2/6"));
-        }));
+          emit(UploadingImages(message: "$i/${uploads.length}"));
 
-        (await _fileRepository.uploadFile(event.registerRequest.bankIBAN,
-                '$employees/$thisEmployeePath/bankIBAN.${event.registerRequest.bankIBAN.getExtension()}'))
-            .fold(((l) {
-          emit(AuthenticationFailed(l.message));
-        }), ((r) {
-          emit(UploadingImages(message: "3/6"));
-        }));
+          await (await _fileRepository.uploadFile(
+                  uploads[i].file, uploads[i].fileName))
+              .fold(((failure) async {
+            emit(AuthenticationFailed(failure.message));
+            _authRepository.deleteEmployee(employee.email);
+            success = false;
+          }), ((_) {}));
+        }
 
-        (await _fileRepository.uploadFile(event.registerRequest.commercial,
-                '$employees/$thisEmployeePath/commercial.${event.registerRequest.commercial.getExtension()}'))
-            .fold(((l) {
-          emit(AuthenticationFailed(l.message));
-        }), ((r) {
-          emit(UploadingImages(message: "4/6"));
-        }));
-
-        (await _fileRepository.uploadFile(event.registerRequest.headquarters,
-                '$employees/$thisEmployeePath/headquarters.${event.registerRequest.headquarters.getExtension()}'))
-            .fold(((l) {
-          emit(AuthenticationFailed(l.message));
-        }), ((r) {
-          emit(UploadingImages(message: "5/6"));
-        }));
-
-        (await _fileRepository.uploadFile(event.registerRequest.personal,
-                '$employees/$thisEmployeePath/personal.${event.registerRequest.personal.getExtension()}'))
-            .fold(((l) {
-          emit(AuthenticationFailed(l.message));
-        }), ((r) {
-          emit(UploadingImages(message: "6/6"));
-        }));
-
-        emit(AuthenticationSuccess(employee: employee));
-
-        _authPreferences.setPermission(employee.permissions);
+        if (success) {
+          emit(AuthenticationSuccess(employee: employee));
+          _authPreferences.setPermission(employee.permissions);
+        }
       });
     });
 
@@ -130,4 +98,36 @@ class AuthenticationBloc
       emit(AuthenticationInitial());
     });
   }
+}
+
+class UploadFileParams {
+  File file;
+  String fileName;
+
+  UploadFileParams(this.file, this.fileName);
+}
+
+_getUploadingFileList(RegisterButtonPressed event) {
+  const employees = 'employees';
+  final String thisEmployeePath = event.registerRequest.email;
+  return [
+    // id image
+    UploadFileParams(event.registerRequest.id,
+        '$employees/$thisEmployeePath/id.${event.registerRequest.id.getExtension()}'),
+    // address image
+    UploadFileParams(event.registerRequest.address,
+        '$employees/$thisEmployeePath/address.${event.registerRequest.address.getExtension()}'),
+    // bank IBAN image
+    UploadFileParams(event.registerRequest.bankIBAN,
+        '$employees/$thisEmployeePath/bankIBAN.${event.registerRequest.bankIBAN.getExtension()}'),
+    // commercial image
+    UploadFileParams(event.registerRequest.commercial,
+        '$employees/$thisEmployeePath/commercial.${event.registerRequest.commercial.getExtension()}'),
+    // headquarters image
+    UploadFileParams(event.registerRequest.headquarters,
+        '$employees/$thisEmployeePath/headquarters.${event.registerRequest.headquarters.getExtension()}'),
+    // personal image
+    UploadFileParams(event.registerRequest.personal,
+        '$employees/$thisEmployeePath/personal.${event.registerRequest.personal.getExtension()}')
+  ];
 }

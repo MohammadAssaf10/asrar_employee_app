@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../domain/entities/employee.dart';
 import '../models/requests.dart';
@@ -9,6 +10,7 @@ const String employeeCollectionPath = 'Employees';
 class FirebaseAuthHelper {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   Future<Employee> login(LoginRequest loginRequest) async {
     await _firebaseAuth.signInWithEmailAndPassword(
@@ -57,5 +59,27 @@ class FirebaseAuthHelper {
 
   Future<void> resetPassword(String email) async {
     _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> deleteUser() async {
+    User? user = getCurrentUser();
+
+    if (user != null) {
+      return await user.delete();
+    }
+  }
+
+  Future<void> deleteEmployeeData(String email) async {
+    return await _firestore
+        .collection(employeeCollectionPath)
+        .doc(email)
+        .delete();
+  }
+
+  Future<void> deleteEmployeeImages(String email) async {
+    var t = (await _storage.ref('employees/$email').listAll()).items;
+    for (var i in t) {
+      await i.delete();
+    }
   }
 }

@@ -25,40 +25,42 @@ manageDialog(BuildContext context, AuthenticationState state) {
         jsonPath: JsonAssets.error, message: state.message.tr(context));
   } else if (state is AuthenticationSuccess) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
+      dismissDialog(context);
       // TODO: navigate to main view
-      Navigator.pushReplacementNamed(context, Routes.splashRoute);
+      //Navigator.pushReplacementNamed(context, Routes.splashRoute);
     });
   } else if (state is ResetPasswordRequestSuccess) {
-    showCustomDialog(context, message: AppStrings.resetEmailSendMessage.tr(context));
+    showCustomDialog(context,
+        message: AppStrings.resetEmailSendMessage.tr(context));
   }
 }
 
 Future<XFile?> openImagePicker(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
+  final ImagePicker picker = ImagePicker();
 
-    XFile? image = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SimpleDialog(
-          title:  Text(AppStrings.selectImageSource.tr(context)),
-          children: [
-            SimpleDialogOption(
-              child:  Text(AppStrings.camera.tr(context)),
-              onPressed: () async {
-                Navigator.pop(context,
-                    await picker.pickImage(source: ImageSource.camera));
-              },
-            ),
-            SimpleDialogOption(
-              child: Text(AppStrings.gallery.tr(context)),
-              onPressed: () async {
-                Navigator.pop(context,
-                    await picker.pickImage(source: ImageSource.gallery));
-              },
-            ),
-          ],
-        );
-      },
-    );
-    return image;
-  }
+  XFile? image = await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: Text(AppStrings.selectImageSource.tr(context)),
+        children: [
+          SimpleDialogOption(
+            child: Text(AppStrings.camera.tr(context)),
+            onPressed: () async {
+              Navigator.pop(
+                  context, await picker.pickImage(source: ImageSource.camera));
+            },
+          ),
+          SimpleDialogOption(
+            child: Text(AppStrings.gallery.tr(context)),
+            onPressed: () async {
+              Navigator.pop(
+                  context, await picker.pickImage(source: ImageSource.gallery));
+            },
+          ),
+        ],
+      );
+    },
+  );
+  return image;
+}

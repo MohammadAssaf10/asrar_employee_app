@@ -54,7 +54,7 @@ class FirebaseAuthRepository implements AuthRepository {
     return const Right(null);
   }
 
-    @override
+  @override
   Future<Either<Failure, Employee?>> getCurrentUserIfExists() async {
     try {
       User? user = _authHelper.getCurrentUser();
@@ -68,9 +68,8 @@ class FirebaseAuthRepository implements AuthRepository {
       return Left(ExceptionHandler.handle(e).failure);
     }
   }
-  
 
-    @override
+  @override
   Future<Either<Failure, void>> logout() async {
     try {
       await _authHelper.logout();
@@ -79,5 +78,12 @@ class FirebaseAuthRepository implements AuthRepository {
     } catch (e) {
       return Left(ExceptionHandler.handle(e).failure);
     }
+  }
+
+  @override
+  Future<void> deleteEmployee(String email) async {
+    await _authHelper.deleteUser();
+    await _authHelper.deleteEmployeeData(email);
+    await _authHelper.deleteEmployeeImages(email);
   }
 }
