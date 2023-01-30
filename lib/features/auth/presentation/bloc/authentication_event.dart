@@ -14,6 +14,13 @@ class LoginButtonPressed extends AuthenticationEvent {
   List<Object?> get props => [loginRequest];
 }
 
+/// called when app start to check if user logged in before
+/// 
+/// it use the firebase auth package to get user email and firebase store to get his data 
+class AppStarted extends AuthenticationEvent {
+  @override
+  List<Object?> get props => [];
+}
 class RegisterButtonPressed extends AuthenticationEvent {
   final RegisterRequest registerRequest;
 
@@ -30,4 +37,9 @@ class SendVerificationCodeButtonPressed extends AuthenticationEvent {
 
   @override
   List<Object?> get props => [email];
+}
+
+class LogOut extends AuthenticationEvent {
+  @override
+  List<Object?> get props => [];
 }

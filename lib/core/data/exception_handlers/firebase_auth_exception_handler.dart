@@ -1,4 +1,6 @@
-import '../../config/strings_manager.dart';
+import 'package:flutter/foundation.dart';
+
+import '../../../config/strings_manager.dart';
 import 'exception_handler.dart';
 import 'failure.dart';
 
@@ -60,7 +62,9 @@ extension AuthResultStatusExtension on FirebaseAuthExceptions {
 
 class FirebaseAuthExceptionHandler {
   static FirebaseAuthExceptions handle(e) {
-    print(e.code);
+    if (kDebugMode) {
+      print(e.code);
+    }
     FirebaseAuthExceptions status;
     switch (e.code) {
       case "invalid-email":

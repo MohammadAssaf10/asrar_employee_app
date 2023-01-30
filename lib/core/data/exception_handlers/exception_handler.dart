@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
-import '../../config/strings_manager.dart';
+import '../../../config/strings_manager.dart';
 import 'firebase_auth_exception_handler.dart';
 import 'failure.dart';
 import 'firebase_exception_handler.dart';
@@ -9,7 +10,9 @@ class ExceptionHandler implements Exception {
   late final Failure failure;
 
   ExceptionHandler.handle(exception) {
-    print("exception cached: ${exception.runtimeType} ${exception.toString()}");
+    if (kDebugMode) {
+      print("\x1B[31m exception cached: ${exception.runtimeType} ${exception.toString()} \x1B[0m");
+    }
 
     bool found = false;
 
@@ -24,8 +27,10 @@ class ExceptionHandler implements Exception {
     }
 
     if (!found) {
-      print(
+      if (kDebugMode) {
+        print(
           "unhandled exception: ${exception.runtimeType} ${exception.toString()}");
+      }
 
       failure = Failure(0, AppStrings.undefined);
     }
@@ -52,8 +57,9 @@ class ResponseCode {
   static const int badRequestError = 400; // failure, API rejected request
   static const int unauthorized = 401; // failure, user is not authorized
   static const int forbidden = 403; //  failure, API rejected request
-  static const int internalServerError = 500; // failure, crash in server side
   static const int notFound = 404; // failure, not found
+  static const int internalServerError = 500; // failure, crash in server side
+  static const int bandwidthLimitExceeded = 509;
 
   // local status code
   static const int connectTimeout = -1;

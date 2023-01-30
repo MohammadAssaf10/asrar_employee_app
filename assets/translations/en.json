@@ -1,4 +1,5 @@
 {
+  "helloText": "Welcome to asrar",
   "sign_in": "Sign in",
   "sign_up": "Sign up",
   "register_new_account": "register new account",
@@ -37,6 +38,11 @@
   "bankIBANCertificate": "Bank IBAN certificate",
   "CommercialRegistryInstitutions": "Commercial registry/institutions",
   "pictureOfTheHeadquarters": "A picture of the headquarters (house / institution)",
+  "enterAllImages": "please enter all images",
+  "enterAllFields": "enter All Fields",
+  "selectImageSource": "Select Image Source",
+  "camera": "Camera",
+  "gallery": "Gallery",
 
   "asrar": "Asrar",
   "home": "Home",

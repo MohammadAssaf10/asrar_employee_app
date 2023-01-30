@@ -2,6 +2,7 @@ class AppStrings {
   static const String noRouteFound = "404";
 
   // auth
+  static const String helloText = "helloText";
   static const String signIn = "sign_in";
   static const String signUp = "sign_up";
   static const String registerNewAccount = "register_new_account";
@@ -44,8 +45,14 @@ class AppStrings {
   static const String address = "address";
   static const String personalPhoto = "personalPhoto";
   static const String bankIBANCertificate = "bankIBANCertificate";
-  static const String commercialRegistryInstitutions = "CommercialRegistryInstitutions";
+  static const String commercialRegistryInstitutions =
+      "CommercialRegistryInstitutions";
   static const String pictureOfTheHeadquarters = "pictureOfTheHeadquarters";
+  static const String enterAllImages = "enterAllImages";
+  static const String enterAllFields = "enterAllFields";
+  static const String selectImageSource = "selectImageSource";
+  static const String camera = "camera";
+  static const String gallery = "gallery";
 
   // home
   static const String asrar = "asrar";
@@ -85,4 +92,20 @@ class AppStrings {
   static const String undefined = "Undefined";
   static const String expiredActionCode = "Expired action code";
   static const String invalidActionCode = "Invalid action code";
+
+  // firebase storage exception
+  static const String bucketNotFound = "bucket_not_found";
+  static const String objectNotFound = "object_not_found";
+  static const String projectNotFound = "project_not_found";
+  static const String quotaExceeded = "quota_exceeded";
+  static const String unauthenticated = "unauthenticated";
+  static const String retryLimitExceeded = "retry_limit_exceeded";
+  static const String invalidChecksum = "invalid_checksum";
+  static const String canceled = "canceled";
+  static const String invalidEventName = "invalid_event_name";
+  static const String invalidUrl = "invalid_url";
+  static const String invalidArgument = "invalid_argument";
+  static const String noDefaultBucket = "no_default_bucket";
+  static const String cannotSliceBlob = "cannot_slice_blob";
+  static const String serverFileWrongSize = "server_file_wrong_size";
 }

@@ -3,9 +3,9 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/data_sources/auth_prefs.dart';
-import '../../features/auth/data/data_sources/firebase.dart';
-import '../../features/auth/data/repository/repository_impl.dart';
-import '../../features/auth/domain/repository/repository.dart';
+import '../../features/auth/data/data_sources/firebase_auth_helper.dart';
+import '../../features/auth/data/repository/firebase_auth_repository.dart';
+import '../../features/auth/domain/repository/auth_repository.dart';
 import '../network/network_info.dart';
 
 final GetIt instance = GetIt.instance;
@@ -26,12 +26,13 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(InternetConnectionChecker()));
 
-  instance.registerLazySingleton<FirebaseHelper>(() => FirebaseHelper());
+  instance
+      .registerLazySingleton<FirebaseAuthHelper>(() => FirebaseAuthHelper());
 }
 
 void initAuthenticationModule() {
-  if (!GetIt.I.isRegistered<Repository>()) {
-    instance.registerLazySingleton<Repository>(
-        () => RepositoryImp(instance(), instance()));
+  if (!GetIt.I.isRegistered<AuthRepository>()) {
+    instance.registerLazySingleton<AuthRepository>(
+        () => FirebaseAuthRepository(instance(), instance()));
   }
 }
