@@ -4,23 +4,28 @@ const String jsonPath = "assets/json";
 
 class ImageAssets {
   static const String maskGroup = "$imagePath/maskGroup.png";
+  static const String asrarCourse = "$imagePath/asrarCourse.png";
+  static const String asrarJob = "$imagePath/asrarJob.png";
 }
 
 class IconAssets {
   static const String home = "$iconPath/home.png";
-  static const String orders = "$iconPath/orders.png";
-  static const String profile = "$iconPath/profile.png";
-  static const String wallet = "$iconPath/wallet.png";
-  static const String customersService = "$iconPath/CustomersService.png";
-  static const String notification = "$iconPath/notification.png";
-  static const String share = "$iconPath/share.png";
-  static const String menu = "$iconPath/menu.png";
-  static const String info = "$iconPath/info.png";
-  static const String whatsApp = "$iconPath/whats_app.png";
-  static const String googleTranslate = "$iconPath/google_translate.png";
-  static const String subscribe = "$iconPath/subscribe.png";
-  static const String termsOfUse = "$iconPath/terms_of_use.png";
-  static const String signOut = "$iconPath/sign_out.png";
+  static const String orders = "$iconPath/orders.svg";
+  static const String profile = "$iconPath/profile.svg";
+  static const String wallet = "$iconPath/wallet.svg";
+  static const String customersService = "$iconPath/CustomersService.svg";
+  static const String notification = "$iconPath/notification.svg";
+  static const String share = "$iconPath/share.svg";
+  static const String info = "$iconPath/info.svg";
+  static const String whatsApp = "$iconPath/whatsapp.svg";
+  static const String googleTranslate = "$iconPath/google_translate.svg";
+  static const String subscribe = "$iconPath/subscribe.svg";
+  static const String termsOfUse = "$iconPath/terms_of_use.svg";
+  static const String signOut = "$iconPath/sign_out.svg";
+  static const String search = "$iconPath/search.svg";
+  static const String dot = "$iconPath/dot.svg";
+  static const String gmail = "$iconPath/gmail.svg";
+  static const String apple = "$iconPath/apple.svg";
 }
 
 class JsonAssets {

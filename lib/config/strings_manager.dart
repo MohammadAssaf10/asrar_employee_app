@@ -80,6 +80,10 @@ class AppStrings {
   static const String defaultError = "Default error";
   static const String cacheError = "Cache error";
   static const String noInternetError = "No internet error";
+  
+  // drawer
+  static const String aboutUs = "about_us";
+  static const String shopOrders = "shop_orders";
 
   // firebase auth exception
   static const String emailAlreadyExists = "Email already exists";
@@ -92,6 +96,8 @@ class AppStrings {
   static const String undefined = "Undefined";
   static const String expiredActionCode = "Expired action code";
   static const String invalidActionCode = "Invalid action code";
+
+
 
   // firebase storage exception
   static const String bucketNotFound = "bucket_not_found";

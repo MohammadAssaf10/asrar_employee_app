@@ -21,24 +21,9 @@ class SplashScreen extends StatelessWidget {
               child: const Text('auth')),
           ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, Routes.signIn);
-              },
-              child: const Text('signIN')),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.signUp);
-              },
-              child: const Text('signUp')),
-          ElevatedButton(
-              onPressed: () {
                 Navigator.pushNamed(context, Routes.homeRoute);
               },
               child: const Text('Home')),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.passwordReset);
-              },
-              child: const Text('password reset')),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [

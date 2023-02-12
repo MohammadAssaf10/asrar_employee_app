@@ -4,6 +4,7 @@ import '../features/auth/presentation/pages/auth_view.dart';
 import '../features/auth/presentation/pages/password_reset_view.dart';
 import '../features/auth/presentation/pages/sign_in_view.dart';
 import '../features/auth/presentation/pages/sign_up_view.dart';
+import '../features/home/presentation/pages/main/main_view.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
 
@@ -37,6 +38,10 @@ class RouteGenerator {
 
       case Routes.passwordReset:
         return MaterialPageRoute(builder: ((context) => PasswordResetView()));
+
+        case Routes.homeRoute:
+        // initHomeModule();
+        return MaterialPageRoute(builder: (_) => const MainView());
 
       default:
         return unDefinedRoute();
