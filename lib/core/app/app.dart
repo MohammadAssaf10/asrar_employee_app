@@ -7,6 +7,7 @@ import '../../config/app_localizations.dart';
 import '../../config/routes_manager.dart';
 import '../../config/theme_manager.dart';
 import '../../features/auth/presentation/bloc/authentication_bloc.dart';
+import '../../features/home/presentation/blocs/service_order_bloc/service_order_bloc.dart';
 import '../../language_cubit/language_cubit.dart';
 import 'language.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LanguageCubit>(create: (context) => LanguageCubit()),
+        BlocProvider<ServiceOrderBloc>(create: (context) => ServiceOrderBloc()),
         BlocProvider<AuthenticationBloc>(
             lazy: false,
             create: (context) => AuthenticationBloc.instance..add(AppStarted()))
