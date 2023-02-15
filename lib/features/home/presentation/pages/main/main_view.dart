@@ -7,7 +7,7 @@ import '../../../../../config/strings_manager.dart';
 import '../../../../../config/values_manager.dart';
 import '../../widgets/general/navigation_bar_bottom.dart';
 import 'customers_service_screen.dart';
-import 'home_screen.dart';
+import 'my_orders_screen.dart';
 import 'my_wallet_screen.dart';
 import 'orders_screen.dart';
 import 'profile_screen.dart';
@@ -24,7 +24,7 @@ class MainView extends StatelessWidget {
         children: const  [
           OrdersScreen(),
           MyWalletScreen(),
-          HomeScreen(),
+          MyOrdersScreen(),
           CustomersServiceScreen(),
           ProfileScreen(),
         ],

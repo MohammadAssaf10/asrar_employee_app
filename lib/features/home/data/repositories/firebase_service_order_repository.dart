@@ -40,9 +40,23 @@ class FirebaseServiceOrderRepository extends ServiceOrderRepository {
   }
 
   @override
-  Future<Either<Failure, List<ServiceOrder>>> getEmployeeArchiveOrder(Employee employee) {
-    // TODO: implement getEmployeeArchiveOrder
-    throw UnimplementedError();
+  Future<Either<Failure, List<ServiceOrder>>> getEmployeeArchiveOrder(Employee employee) async {
+    try {
+      List<ServiceOrder> serviceOrderList = [];
+
+      var docs = await _firestore
+          .collection(FireBaseConstants.serviceOrder)
+          .where(FireBaseConstants.employee, isEqualTo: employee.toMap())
+          .get();
+
+      for (var doc in docs.docs) {
+        serviceOrderList.add(ServiceOrder.fromMap(doc.data()));
+      }
+
+      return Right(serviceOrderList);
+    } catch (e) {
+      return Left(ExceptionHandler.handle(e).failure);
+    }
   }
 
   @override
@@ -53,6 +67,7 @@ class FirebaseServiceOrderRepository extends ServiceOrderRepository {
       var docs = await _firestore
           .collection(FireBaseConstants.serviceOrder)
           .where(FireBaseConstants.employee, isEqualTo: employee.toMap())
+          .where(FireBaseConstants.status, isEqualTo: OrderStatus.inProgress.name)
           .get();
 
       for (var doc in docs.docs) {

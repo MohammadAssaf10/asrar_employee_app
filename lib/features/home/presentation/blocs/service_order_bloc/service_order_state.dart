@@ -39,11 +39,11 @@ class ServiceOrderState extends Equatable {
   List<Object> get props {
     return [
       currentOrderStatus,
-      currentOrderList,
       archiveOrderStatus,
-      archiveOrderList,
       pendingOrderStatus,
       processStatus,
+      currentOrderList,
+      archiveOrderList,
       pendingOrderList,
     ];
   }

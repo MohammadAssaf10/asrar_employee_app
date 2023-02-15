@@ -55,6 +55,9 @@ class AppStrings {
   static const String home = "home";
   static const String profile = "profile";
   static const String orders = "orders";
+  static const String currentOrder = "currentOrder";
+  static const String archiveOrder = "archiveOrder";
+  static const String myOrders = "myOrders";
   static const String myWallet = "my_wallet";
   static const String customerService = "customers_service";
   static const String asrarForElectronicServices = "asrar_for_electronic_services";

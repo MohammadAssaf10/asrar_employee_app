@@ -13,6 +13,7 @@ class ServiceOrderBloc extends Bloc<ServiceOrderEvent, ServiceOrderState> {
   final ServiceOrderRepository _serviceOrderRepository = instance();
 
   ServiceOrderBloc() : super(ServiceOrderState.init()) {
+    
     on<GetPendingOrders>((event, emit) async {
       emit(state.copyWith(pendingOrderStatus: Status.loading));
       (await _serviceOrderRepository.getPendingOrders()).fold(
@@ -42,7 +43,17 @@ class ServiceOrderBloc extends Bloc<ServiceOrderEvent, ServiceOrderState> {
       );
     });
 
-    on<GetOrdersArchive>((event, emit) async {});
+    on<GetOrdersArchive>((event, emit) async {
+      emit(state.copyWith(archiveOrderStatus: Status.loading));
+      (await _serviceOrderRepository.getEmployeeArchiveOrder(event.employee)).fold(
+        (l) {
+          emit(state.copyWith(archiveOrderStatus: Status.failed, message: l.message));
+        },
+        (r) {
+          emit(state.copyWith(archiveOrderStatus: Status.success, archiveOrder: r));
+        },
+      );
+    });
 
     on<AcceptOrder>((event, emit) async {
       emit(state.copyWith(processStatus: Status.loading));
