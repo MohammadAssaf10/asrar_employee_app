@@ -56,6 +56,23 @@
   "google_translate": "اللغة",
   "subscribe": "الاشتراك",
   "shop_orders": "طلبات المتجر",
+  "no_orders": "لا يوجد طلبات",
+  "toGetNewOrdersGoToOrderView": "للحصول على طلبات جديدة اذهب الى قائمة الطلبات",
+  "order_number": "رقم الطلب",
+  "order_n_number": "رقم \n الطلب",
+  "service": "الخدمة",
+  "requesterName": "اسم طالب الخدمة",
+  "company": "الشركة",
+  "status": "الحالة",
+  "pending": "معلق",
+  "inProgress": "قيد التنفيذ",
+  "finished": "منتهي",
+  "canceled": "ملغي",
+  "canceling": "جاري الإلغاء",
+  "price": "السعر",
+  "accept": "قبول",
+  "cancel": "الإلغاء",
+
 
   "terms_of_use": "شروط الاستخدام"
 }

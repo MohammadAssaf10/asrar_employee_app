@@ -74,57 +74,50 @@ dismissDialog(BuildContext context) {
   }
 }
 
-void showCustomDialog(BuildContext context,
-    {String? message, String? jsonPath}) {
+void showCustomDialog(BuildContext context, {String? message, String? jsonPath}) {
   SchedulerBinding.instance.addPostFrameCallback((_) {
     dismissDialog(context);
     showDialog(
       context: context,
-      builder: (_) => Center(
-        child: Padding(
-          padding: EdgeInsets.all(AppSize.s8.h),
-          child: Card(
-            color: ColorManager.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (jsonPath != null)
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s10.h,
-                      horizontal: AppSize.s10.w,
-                    ),
-                    child: Lottie.asset(jsonPath),
-                  ),
-                if (message != null)
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s10.h,
-                      horizontal: AppSize.s10.w,
-                    ),
-                    child: Center(
-                      child: Text(
-                        message,
-                        style: getAlmaraiRegularStyle(
-                          fontSize: AppSize.s16.sp,
-                          color: ColorManager.primary,
-                        ),
-                      ),
-                    ),
-                  ),
-                if (jsonPath == null && message == null)
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: AppSize.s8.h,
-                      horizontal: AppSize.s8.w,
-                    ),
-                    child: const CircularProgressIndicator(
+      builder: (_) => Dialog(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (jsonPath != null)
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s10.h,
+                  horizontal: AppSize.s10.w,
+                ),
+                child: Lottie.asset(jsonPath),
+              ),
+            if (message != null)
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s10.h,
+                  horizontal: AppSize.s10.w,
+                ),
+                child: Center(
+                  child: Text(
+                    message,
+                    style: getAlmaraiRegularStyle(
+                      fontSize: AppSize.s16.sp,
                       color: ColorManager.primary,
                     ),
                   ),
-              ],
-            ),
-          ),
+                ),
+              ),
+            if (jsonPath == null && message == null)
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.s8.h,
+                  horizontal: AppSize.s8.w,
+                ),
+                child: const CircularProgressIndicator(
+                  color: ColorManager.primary,
+                ),
+              ),
+          ],
         ),
       ),
     );

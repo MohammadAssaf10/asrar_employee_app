@@ -4,6 +4,11 @@ abstract class ServiceOrderEvent extends Equatable {
   const ServiceOrderEvent();
 }
 
+class GetPendingOrders extends ServiceOrderEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class GetCurrentOrders extends ServiceOrderEvent {
   final Employee employee;
 

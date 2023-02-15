@@ -21,7 +21,7 @@ class MainView extends StatelessWidget {
     return Scaffold(
       body: PageView(
         controller: controller,
-        children: const [
+        children: const  [
           OrdersScreen(),
           MyWalletScreen(),
           HomeScreen(),

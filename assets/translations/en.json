@@ -58,6 +58,25 @@
   "terms_of_use": "Terms of use",
   "SignOut": "SignOut",
 
+
   "shop_orders": "Shop Orders",
+  "no_orders": "No Orders",
+  "toGetNewOrdersGoToOrderView": "to get new orders go to order view",
+  "order_number": "Order Number",
+  "order_n_number": "Order\nNumber",
+  "service": "Service",
+  "requesterName": "Requester Name",
+  "company": "Company",
+  "status": "Status",
+  "pending": "Pending",
+  "inProgress": "In Progress",
+  "finished": "Finished",
+  "canceled": "Canceled",
+  "canceling": "Canceling",
+  "price": "Price",
+  "accept": "accept",
+  "cancel": "cancel",
+
   "about_us": "About Us"
+
 }

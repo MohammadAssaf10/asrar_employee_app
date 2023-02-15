@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../domain/entities/permissions.dart';
 
-
 const String kIsUserLoggedInKey = "is user logged in";
 const String kCanWork = "kCanWork";
 const String kAddsManagement = "kAddsManagement";
@@ -22,23 +21,6 @@ class AuthPreferences {
 
   Future<void> setPermission(Permissions permissions) async {
     await _sharedPreferences.setBool(kCanWork, permissions.canWork);
-    await _sharedPreferences.setBool(
-        kAddsManagement, permissions.addsManagement);
-    await _sharedPreferences.setBool(
-        kCompanyManagement, permissions.companyManagement);
-    await _sharedPreferences.setBool(
-        kCoursesManagement, permissions.coursesManagement);
-    await _sharedPreferences.setBool(
-        kEmployeeManagement, permissions.employeeManagement);
-    await _sharedPreferences.setBool(
-        kNewsManagement, permissions.newsManagement);
-    await _sharedPreferences.setBool(kIsRejected, permissions.isRejected);
-    await _sharedPreferences.setBool(
-        kOffersManagement, permissions.offersManagement);
-    await _sharedPreferences.setBool(
-        kStoreManagement, permissions.storeManagement);
-    await _sharedPreferences.setBool(
-        kTechnicalSupport, permissions.technicalSupport);
   }
 
   bool canWork() {
@@ -46,33 +28,23 @@ class AuthPreferences {
   }
 
   bool addsManagement() {
-    return (_sharedPreferences.getBool(kAddsManagement) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kAddsManagement) ?? false) && canWork() && !isRejected();
   }
 
   bool storeManagement() {
-    return (_sharedPreferences.getBool(kStoreManagement) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kStoreManagement) ?? false) && canWork() && !isRejected();
   }
 
   bool companyManagement() {
-    return (_sharedPreferences.getBool(kCompanyManagement) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kCompanyManagement) ?? false) && canWork() && !isRejected();
   }
 
   bool coursesManagement() {
-    return (_sharedPreferences.getBool(kCoursesManagement) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kCoursesManagement) ?? false) && canWork() && !isRejected();
   }
 
   bool employeeManagement() {
-    return (_sharedPreferences.getBool(kEmployeeManagement) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kEmployeeManagement) ?? false) && canWork() && !isRejected();
   }
 
   bool newsManagement() {
@@ -84,14 +56,10 @@ class AuthPreferences {
   }
 
   bool offersManagement() {
-    return (_sharedPreferences.getBool(kOffersManagement) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kOffersManagement) ?? false) && canWork() && !isRejected();
   }
 
   bool technicalSupport() {
-    return (_sharedPreferences.getBool(kTechnicalSupport) ?? false) &&
-        canWork() &&
-        !isRejected();
+    return (_sharedPreferences.getBool(kTechnicalSupport) ?? false) && canWork() && !isRejected();
   }
 }

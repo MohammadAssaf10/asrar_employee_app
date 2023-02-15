@@ -24,16 +24,13 @@ class AppStrings {
   static const String nameTooShort = "name_too_short";
   static const String pleaseEnterName = "please_enter_name";
   static const String alreadyHaveAccount = "already_have_account";
-  static const String nameShouldAtLeast3Character =
-      "name_should_atLeast_3_character";
+  static const String nameShouldAtLeast3Character = "name_should_atLeast_3_character";
   static const String emailFormatNotCorrect = "email_format_not_correct";
   static const String pleaseEnterMobileNumber = "please_enter_mobile_number";
   static const String mobileNumberShouldAtLeast5Character =
       "mobile_number_should_at_least_5_character";
-  static const String passwordShouldAtLeast6Character =
-      "password_should_at_least_6_Character";
-  static const String mobileNumberFormatNotCorrect =
-      "mobile_number_format_not_correct";
+  static const String passwordShouldAtLeast6Character = "password_should_at_least_6_Character";
+  static const String mobileNumberFormatNotCorrect = "mobile_number_format_not_correct";
   static const String resetPassword = "reset_password";
   static const String verificationCode = "verification_code";
   static const String sendVerificationCode = "send_verification_code";
@@ -45,8 +42,7 @@ class AppStrings {
   static const String address = "address";
   static const String personalPhoto = "personalPhoto";
   static const String bankIBANCertificate = "bankIBANCertificate";
-  static const String commercialRegistryInstitutions =
-      "CommercialRegistryInstitutions";
+  static const String commercialRegistryInstitutions = "CommercialRegistryInstitutions";
   static const String pictureOfTheHeadquarters = "pictureOfTheHeadquarters";
   static const String enterAllImages = "enterAllImages";
   static const String enterAllFields = "enterAllFields";
@@ -61,13 +57,28 @@ class AppStrings {
   static const String orders = "orders";
   static const String myWallet = "my_wallet";
   static const String customerService = "customers_service";
-  static const String asrarForElectronicServices =
-      "asrar_for_electronic_services";
+  static const String asrarForElectronicServices = "asrar_for_electronic_services";
   static const String info = "info";
   static const String whatsApp = "whats_app";
   static const String googleTranslate = "google_translate";
   static const String subscribe = "subscribe";
+  static const String price = "price";
+  static const String accept = "accept";
+  static const String cancel = "cancel";
+
   static const String termsOfUse = "terms_of_use";
+  static const String pending = "pending";
+  static const String inProgress = "inProgress";
+  static const String finished = "finished";
+  static const String canceling = "canceling";
+  static const String noOrders = "no_orders";
+  static const String toGetNewOrdersGoToOrderView = "toGetNewOrdersGoToOrderView";
+  static const String orderNumber = "order_number";
+  static const String orderNNumber = "order_n_number";
+  static const String service = "service";
+  static const String requesterName = "requesterName";
+  static const String company = "company";
+  static const String status = "status";
 
   // exception handler
   static const String success = "Success";
@@ -80,7 +91,7 @@ class AppStrings {
   static const String defaultError = "Default error";
   static const String cacheError = "Cache error";
   static const String noInternetError = "No internet error";
-  
+
   // drawer
   static const String aboutUs = "about_us";
   static const String shopOrders = "shop_orders";
@@ -96,8 +107,6 @@ class AppStrings {
   static const String undefined = "Undefined";
   static const String expiredActionCode = "Expired action code";
   static const String invalidActionCode = "Invalid action code";
-
-
 
   // firebase storage exception
   static const String bucketNotFound = "bucket_not_found";

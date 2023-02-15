@@ -15,6 +15,7 @@ void main() async {
 
   await initAppModule();
   initAuthenticationModule();
+  initHomeModule();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

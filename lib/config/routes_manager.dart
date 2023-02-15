@@ -4,6 +4,7 @@ import '../features/auth/presentation/pages/auth_view.dart';
 import '../features/auth/presentation/pages/password_reset_view.dart';
 import '../features/auth/presentation/pages/sign_in_view.dart';
 import '../features/auth/presentation/pages/sign_up_view.dart';
+import '../features/home/presentation/pages/main/chat_screen.dart';
 import '../features/home/presentation/pages/main/main_view.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
@@ -13,6 +14,7 @@ class Routes {
   static const String splashRoute = "/";
 
   static const String homeRoute = "/home";
+  static const String chatRoute = "/chat";
 
   // auth rotes
   static const String auth = '/auth';
@@ -39,9 +41,11 @@ class RouteGenerator {
       case Routes.passwordReset:
         return MaterialPageRoute(builder: ((context) => PasswordResetView()));
 
-        case Routes.homeRoute:
-        // initHomeModule();
+      case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const MainView());
+
+      case Routes.chatRoute:
+        return MaterialPageRoute(builder: (_) => const ChatScreen());
 
       default:
         return unDefinedRoute();
