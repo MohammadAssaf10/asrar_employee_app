@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +7,10 @@ import '../../features/auth/data/data_sources/auth_prefs.dart';
 import '../../features/auth/data/data_sources/firebase_auth_helper.dart';
 import '../../features/auth/data/repository/firebase_auth_repository.dart';
 import '../../features/auth/domain/repository/auth_repository.dart';
+import '../../features/chat/data/repositories/firebase_chat_repository.dart';
+import '../../features/chat/domain/repositories/chat_repository.dart';
 import '../../features/home/data/repositories/firebase_service_order_repository.dart';
+import '../../features/home/domain/entities/service_order.dart';
 import '../../features/home/domain/repositories/service_order_repository.dart';
 import '../network/network_info.dart';
 
@@ -40,5 +44,12 @@ void initAuthenticationModule() {
 void initHomeModule() {
   if (!GetIt.I.isRegistered<ServiceOrderRepository>()) {
     instance.registerLazySingleton<ServiceOrderRepository>(() => FirebaseServiceOrderRepository());
+  }
+}
+
+void initChatModule(ServiceOrder serviceOrder) {
+  if (!GetIt.I.isRegistered<ChatRepository>()) {
+    instance.registerLazySingleton<ChatRepository>(() =>
+        FirebaseChatRepository(FirebaseFirestore.instance, instance<NetworkInfo>(), serviceOrder));
   }
 }

@@ -23,7 +23,7 @@ class OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, Routes.chatRoute);
+        Navigator.pushNamed(context, Routes.chatRoute, arguments: order);
       },
       child: Container(
         padding: EdgeInsets.symmetric(

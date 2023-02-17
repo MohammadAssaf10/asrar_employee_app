@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../core/app/di.dart';
 import '../features/auth/presentation/pages/auth_view.dart';
 import '../features/auth/presentation/pages/password_reset_view.dart';
 import '../features/auth/presentation/pages/sign_in_view.dart';
 import '../features/auth/presentation/pages/sign_up_view.dart';
-import '../features/home/presentation/pages/main/chat_screen.dart';
+import '../features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
+import '../features/chat/presentation/pages/chat_screen.dart';
+import '../features/home/domain/entities/service_order.dart';
 import '../features/home/presentation/pages/main/main_view.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
@@ -45,8 +49,18 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MainView());
 
       case Routes.chatRoute:
-        return MaterialPageRoute(builder: (_) => const ChatScreen());
+        {
+          final arg = settings.arguments as ServiceOrder;
+          initChatModule(arg);
 
+          return MaterialPageRoute(
+            builder: (context) => BlocProvider(
+              create: (context) => ChatBloc()..add(ChatStarted(serviceOrder: arg)),
+              lazy: false,
+              child: const ChatScreen(),
+            ),
+          );
+        }
       default:
         return unDefinedRoute();
     }

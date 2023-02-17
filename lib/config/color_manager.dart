@@ -7,6 +7,9 @@ class ColorManager {
   static const Color backgroundColor = Color(0xFFE0E0E0);
   static const Color grey = Color(0xFFBBBBBB);
   static const Color darkGrey = Color(0xFF9F9F9F);
+  static const Color lightGreen = Color(0xFF78D1A6);
+  static const Color veryDarkGrey = Color.fromARGB(255, 87, 87, 87);
+  
   static const Color transparent = Colors.transparent;
 
   static const Color black =  Colors.black;
