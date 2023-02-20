@@ -19,8 +19,8 @@ class ImageMessageWidget extends StatelessWidget {
         ),
         child: CachedNetworkImage(
           imageUrl: message.imageUrl,
-          placeholder: (context, url) => new CircularProgressIndicator(),
-          errorWidget: (context, url, error) => new Icon(Icons.error),
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
       ),
     );

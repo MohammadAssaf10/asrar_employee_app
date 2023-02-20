@@ -63,7 +63,8 @@ class FirebaseChatRepository extends ChatRepository {
   @override
   Future<Either<Failure, String>> uploadImage(XFile image) async {
     try {
-      var file = await uploadFile('${FireBaseConstants.messages}/${serviceOrder.id}/images', image);
+      var file = await uploadFile(
+          '${FireBaseConstants.messages}/${serviceOrder.id}/images/${image.name}', image);
       return Right(file.url);
     } catch (e) {
       return Left(ExceptionHandler.handle(e).failure);
