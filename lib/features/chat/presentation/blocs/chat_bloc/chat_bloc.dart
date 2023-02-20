@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../../core/app/di.dart';
 import '../../../../home/domain/entities/service_order.dart';
@@ -32,18 +33,40 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<_MessageReserved>(
       (event, emit) {
         final list = event.messageList;
-        list.sort((a, b) => a.details.createdAt.compareTo(b.details.createdAt));
+        list.sort((a, b) => b.details.createdAt.compareTo(a.details.createdAt));
         emit(state.copyWith(messagesList: list));
       },
     );
 
-    on<MessageSent>(
+    on<TextMessageSent>(
       (event, emit) async {
         (await _chatRepository.sendMessage(event.message)).fold(
           (l) {
             emit(state.copyWith(status: Status.failed, message: l.message));
           },
           (r) {},
+        );
+      },
+    );
+
+    on<ImageMessageSent>(
+      (event, emit) async {
+        emit(state.copyWith(fileUploadingStatus: Status.loading));
+        await (await _chatRepository.uploadImage(event.image)).fold(
+          (l) {
+            emit(state.copyWith(fileUploadingStatus: Status.failed, message: l.message));
+          },
+          (r) async {
+            emit(state.copyWith(fileUploadingStatus: Status.success));
+
+            var imageMessage = event.message.copyWith(imageUrl: r);
+            (await _chatRepository.sendMessage(imageMessage)).fold(
+              (l) {
+                emit(state.copyWith(status: Status.failed, message: l.message));
+              },
+              (r) {},
+            );
+          },
         );
       },
     );

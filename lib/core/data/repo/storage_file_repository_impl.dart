@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../exception_handlers/exception_handler.dart';
-import '../exception_handlers/failure.dart';
+import '../exception_handler.dart';
+import '../failure.dart';
 
 class StorageFileRepository {
   final FirebaseStorage storage = FirebaseStorage.instance;

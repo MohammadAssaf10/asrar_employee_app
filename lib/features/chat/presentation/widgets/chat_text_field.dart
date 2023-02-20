@@ -9,17 +9,19 @@ import '../../domain/entities/message.dart';
 import '../blocs/chat_bloc/chat_bloc.dart';
 
 class ChatTextField extends StatelessWidget {
-  ChatTextField({super.key});
+  ChatTextField({super.key, this.onSended});
 
   final TextEditingController _chatController = TextEditingController();
 
   late final Sender sender;
+  final Function? onSended;
 
   @override
   Widget build(BuildContext context) {
     var authState = BlocProvider.of<AuthenticationBloc>(context).state;
     if (authState is AuthenticationSuccess) {
-      sender = Sender(name: authState.employee.name, email: authState.employee.email);
+      var authUser = authState.employee;
+      sender = Sender(name: authUser.name, email: authUser.email);
       return Container(
         decoration: BoxDecoration(
           color: ColorManager.white,
@@ -30,20 +32,16 @@ class ChatTextField extends StatelessWidget {
           children: [
             IconButton(
                 onPressed: () {
+                  if (onSended != null) onSended!();
                   if (_chatController.text.isNotEmpty) {
-                    BlocProvider.of<ChatBloc>(context).add(MessageSent(
-                        message: TextMessage.create(_chatController.text, sender)
-                        // TextMessage(
-                        //   content: _chatController.text,
-                        //   details: MessageDetails(
-                        //       sender: sender, createdAt: Timestamp.now(), type: MessageType.text.name),
-                        // ),
-                        ));
+                    BlocProvider.of<ChatBloc>(context).add(
+                        TextMessageSent(message: TextMessage.create(_chatController.text, sender)));
+                    _chatController.clear();
                   }
                 },
                 icon: const Icon(
                   Icons.send,
-                  color: ColorManager.grey,
+                  color: ColorManager.primary,
                 )),
             Expanded(
               child: TextField(

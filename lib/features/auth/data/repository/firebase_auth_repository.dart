@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../../../../core/data/exception_handlers/exception_handler.dart';
-import '../../../../core/data/exception_handlers/failure.dart';
+import '../../../../core/data/exception_handler.dart';
+import '../../../../core/data/failure.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/employee.dart';
 import '../../domain/repository/auth_repository.dart';

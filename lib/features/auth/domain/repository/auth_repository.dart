@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/data/exception_handlers/failure.dart';
+import '../../../../core/data/failure.dart';
 import '../../data/models/requests.dart';
 import '../entities/employee.dart';
 
