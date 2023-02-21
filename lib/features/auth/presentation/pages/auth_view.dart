@@ -1,7 +1,8 @@
+import 'package:asrar_employee_app/config/assets_manager.dart';
+import 'package:asrar_employee_app/config/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../config/color_manager.dart';
 import '../../../../config/routes_manager.dart';
 import '../../../../config/strings_manager.dart';
 import '../../../../config/app_localizations.dart';
@@ -21,8 +22,9 @@ class Auth extends StatelessWidget {
             focal: Alignment.topCenter,
             radius: 4,
             colors: [
+              ColorManager.veryDarkPrimary,
               ColorManager.primary,
-              Colors.white,
+              ColorManager.white,
             ]),
       ),
       child: Padding(
@@ -32,18 +34,14 @@ class Auth extends StatelessWidget {
           children: [
             const SizedBox(),
             const SizedBox(),
-            SizedBox(
-              width: 200,
-              child: Text(
-                AppStrings.helloText.tr(context),
-                style: TextStyle(
-                    fontSize: AppSize.s40.sp, color: ColorManager.white),
-              ),
-            ),
+            Container(
+                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+                child: Image.asset(ImageAssets.logo)),
             const SizedBox(),
             Column(
               children: [
                 FullElevatedButton(
+                  color: ColorManager.darkPrimary,
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.signIn);
                   },
@@ -53,6 +51,7 @@ class Auth extends StatelessWidget {
                   height: AppSize.s30.h,
                 ),
                 FullElevatedButton(
+                  color: ColorManager.darkPrimary,
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, Routes.signUp);
                   },

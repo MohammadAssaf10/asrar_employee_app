@@ -33,8 +33,7 @@ class TextFrom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.w, vertical: AppSize.s8.h),
+      padding: EdgeInsets.symmetric(horizontal: AppSize.s8.w, vertical: AppSize.s8.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,13 +58,11 @@ class TextFrom extends StatelessWidget {
               enabledBorder: Theme.of(context)
                   .inputDecorationTheme
                   .enabledBorder!
-                  .copyWith(
-                      borderSide: const BorderSide(color: Colors.transparent)),
+                  .copyWith(borderSide: const BorderSide(color: Colors.transparent)),
               focusedBorder: Theme.of(context)
                   .inputDecorationTheme
                   .focusedBorder!
-                  .copyWith(
-                      borderSide: const BorderSide(color: Colors.transparent)),
+                  .copyWith(borderSide: const BorderSide(color: Colors.transparent)),
               errorStyle: TextStyle(fontSize: 14.sp),
             ),
           ),
@@ -95,8 +92,7 @@ class _FileButtonState extends State<FileButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
-          horizontal: AppSize.s8.w, vertical: AppSize.s8.h),
+      margin: EdgeInsets.symmetric(horizontal: AppSize.s8.w, vertical: AppSize.s8.h),
       decoration: BoxDecoration(
         color: ColorManager.white,
         borderRadius: BorderRadius.circular(AppSize.s12.r),
@@ -124,18 +120,14 @@ class _FileButtonState extends State<FileButton> {
                 widget.text,
                 softWrap: true,
                 maxLines: 3,
-                style: const TextStyle(
-                    color: ColorManager.black, fontSize: AppSize.s14),
+                style: const TextStyle(color: ColorManager.black, fontSize: AppSize.s14),
               ),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (_image != null)
-                  SizedBox(
-                      width: 50,
-                      height: 50,
-                      child: Image.file(File(_image!.path))),
+                  SizedBox(width: 50, height: 50, child: Image.file(File(_image!.path))),
                 const Icon(
                   Icons.photo,
                   color: ColorManager.black,
@@ -154,18 +146,27 @@ class FullElevatedButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
+    this.color,
   }) : super(key: key);
 
   final Function()? onPressed;
   final String text;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: AppSize.s50,
-      child: ElevatedButton(onPressed: onPressed, child: Text(text)),
+      child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(color),
+            side: color != null
+                ? MaterialStatePropertyAll<BorderSide?>(BorderSide(color: color!))
+                : null,
+          ),
+          onPressed: onPressed,
+          child: Text(text)),
     );
   }
 }
-
