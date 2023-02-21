@@ -41,6 +41,8 @@ class FirebaseChatRepository extends ChatRepository {
 
   @override
   Future<Either<Failure, Stream<List<Message>>>> startChatStream() async {
+
+  print(serviceOrder);
     if (!await _networkInfo.isConnected) {
       return Left(DataSourceExceptions.noInternetConnections.getFailure());
     }
