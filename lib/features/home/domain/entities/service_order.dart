@@ -6,6 +6,7 @@ import 'service_entities.dart';
 import 'user.dart';
 
 /// [status] must be one of the [OrderStatus]
+// when regenerate data class remove the user form [toMap]
 class ServiceOrder {
   final int id;
   final ServiceEntities service;
@@ -42,7 +43,6 @@ class ServiceOrder {
 
     result.addAll({'id': id});
     result.addAll({'service': service.toMap()});
-    result.addAll({'user': user.toMap()});
     result.addAll({'employee': employee.toMap()});
     result.addAll({'status': status});
 
