@@ -57,4 +57,17 @@ class RegisterRequest {
         bankIBAN = images.bankIBAN!,
         commercial = images.commercial!,
         headquarters = images.headquarters!;
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'name': name});
+    result.addAll({'phonNumber': phonNumber});
+    result.addAll({'email': email});
+    result.addAll({'password': password});
+    result.addAll({'idNumber': idNumber});
+    result.addAll({'national': national});
+
+    return result;
+  }
 }

@@ -21,8 +21,7 @@ class FirebaseAuthHelper {
 
   Future<Employee> getEmployee(String email) async {
     final employeeMap =
-        (await _firestore.collection(employeeCollectionPath).doc(email).get())
-            .data();
+        (await _firestore.collection(employeeCollectionPath).doc(email).get()).data();
 
     if (employeeMap == null) {
       throw FirebaseAuthException(code: "auth/user-not-found");
@@ -46,13 +45,7 @@ class FirebaseAuthHelper {
     await _firestore
         .collection(employeeCollectionPath)
         .doc(registerRequest.email)
-        .set({
-      "name": registerRequest.name,
-      "phonNumber": registerRequest.phonNumber,
-      "email": registerRequest.email,
-      "idNumber": registerRequest.idNumber,
-      "national": registerRequest.national,
-    });
+        .set(registerRequest.toMap());
 
     return await getEmployee(registerRequest.email);
   }
@@ -70,10 +63,7 @@ class FirebaseAuthHelper {
   }
 
   Future<void> deleteEmployeeData(String email) async {
-    return await _firestore
-        .collection(employeeCollectionPath)
-        .doc(email)
-        .delete();
+    return await _firestore.collection(employeeCollectionPath).doc(email).delete();
   }
 
   Future<void> deleteEmployeeImages(String email) async {
