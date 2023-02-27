@@ -9,6 +9,8 @@ class Employee {
   String idNumber;
   String national;
   Permissions permissions;
+  String imageName;
+  String imageURL;
 
   Employee({
     required this.name,
@@ -17,6 +19,8 @@ class Employee {
     required this.idNumber,
     required this.national,
     required this.permissions,
+    required this.imageName,
+    required this.imageURL,
   });
 
   Employee copyWith({
@@ -26,6 +30,8 @@ class Employee {
     String? idNumber,
     String? national,
     Permissions? permissions,
+    String? imageName,
+    String? imageURL,
   }) {
     return Employee(
       name: name ?? this.name,
@@ -34,6 +40,8 @@ class Employee {
       idNumber: idNumber ?? this.idNumber,
       national: national ?? this.national,
       permissions: permissions ?? this.permissions,
+      imageName: imageName ?? this.imageName,
+      imageURL: imageURL ?? this.imageURL,
     );
   }
 
@@ -45,6 +53,8 @@ class Employee {
     result.addAll({'phonNumber': phonNumber});
     result.addAll({'idNumber': idNumber});
     result.addAll({'national': national});
+    result.addAll({'imageName': imageName});
+    result.addAll({'imageURL': imageURL});
     result.addAll({'permissions': permissions.toMap()});
 
     return result;
@@ -58,6 +68,8 @@ class Employee {
       idNumber: map['idNumber'] ?? '',
       national: map['national'] ?? '',
       permissions: Permissions.fromMap(map['permissions'] ?? {}),
+      imageName: map['imageName'] ?? '',
+      imageURL: map['imageURL'] ?? '',
     );
   }
 
@@ -65,11 +77,6 @@ class Employee {
 
   factory Employee.fromJson(String source) =>
       Employee.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'Employee(name: $name, email: $email, phonNumber: $phonNumber, idNumber: $idNumber, national: $national, permissions: $permissions)';
-  }
 
   @override
   bool operator ==(Object other) {
@@ -81,7 +88,9 @@ class Employee {
         other.phonNumber == phonNumber &&
         other.idNumber == idNumber &&
         other.national == national &&
-        other.permissions == permissions;
+        other.permissions == permissions &&
+        other.imageName == imageName &&
+        other.imageURL == imageURL;
   }
 
   @override
@@ -91,6 +100,13 @@ class Employee {
         phonNumber.hashCode ^
         idNumber.hashCode ^
         national.hashCode ^
-        permissions.hashCode;
+        permissions.hashCode ^
+        imageName.hashCode ^
+        imageURL.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'Employee(name: $name, email: $email, phonNumber: $phonNumber, idNumber: $idNumber, national: $national, permissions: $permissions, imageName: $imageName, imageURL: $imageURL)';
   }
 }
