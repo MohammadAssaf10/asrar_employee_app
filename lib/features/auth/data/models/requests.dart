@@ -15,6 +15,7 @@ class LoginRequest extends Equatable {
 }
 
 class RegisterRequest {
+  String employeeID;
   String name;
   String phoneNumber;
   String email;
@@ -22,7 +23,7 @@ class RegisterRequest {
   String idNumber;
   String national;
 
-  File id;
+  File idImage;
   File address;
   File personal;
   File bankIBAN;
@@ -30,13 +31,14 @@ class RegisterRequest {
   File headquarters;
 
   RegisterRequest(
+    this.employeeID,
     this.name,
     this.phoneNumber,
     this.email,
     this.password,
     this.idNumber,
     this.national,
-    this.id,
+    this.idImage,
     this.address,
     this.personal,
     this.bankIBAN,
@@ -45,12 +47,13 @@ class RegisterRequest {
   );
 
   RegisterRequest.forTest(this.email, File file)
-      : name = '',
+      : employeeID = '',
+        name = '',
         phoneNumber = '',
         password = '123456',
         idNumber = '',
         national = '',
-        id = file,
+        idImage = file,
         address = file,
         personal = file,
         bankIBAN = file,
@@ -58,13 +61,14 @@ class RegisterRequest {
         headquarters = file;
 
   RegisterRequest.fromObject(EmployeeTextFields textFields, EmployeeImages images)
-      : name = textFields.name!,
+      : employeeID = '',
+        name = textFields.name!,
         phoneNumber = textFields.phonNumber!,
         email = textFields.email!,
         password = textFields.password!,
         idNumber = textFields.idNumber!,
         national = textFields.national!,
-        id = images.id!,
+        idImage = images.id!,
         address = images.address!,
         personal = images.personal!,
         bankIBAN = images.bankIBAN!,
@@ -74,6 +78,7 @@ class RegisterRequest {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
+    result.addAll({'employeeID': employeeID});
     result.addAll({'name': name});
     result.addAll({'phoneNumber': phoneNumber});
     result.addAll({'email': email});
@@ -82,5 +87,42 @@ class RegisterRequest {
     result.addAll({'national': national});
 
     return result;
+  }
+
+  RegisterRequest copyWith({
+    String? employeeID,
+    String? name,
+    String? phoneNumber,
+    String? email,
+    String? password,
+    String? idNumber,
+    String? national,
+    File? idImage,
+    File? address,
+    File? personal,
+    File? bankIBAN,
+    File? commercial,
+    File? headquarters,
+  }) {
+    return RegisterRequest(
+      employeeID ?? this.employeeID,
+      name ?? this.name,
+      phoneNumber ?? this.phoneNumber,
+      email ?? this.email,
+      password ?? this.password,
+      idNumber ?? this.idNumber,
+      national ?? this.national,
+      idImage ?? this.idImage,
+      address ?? this.address,
+      personal ?? this.personal,
+      bankIBAN ?? this.bankIBAN,
+      commercial ?? this.commercial,
+      headquarters ?? this.headquarters,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'RegisterRequest(employeeID: $employeeID, name: $name, phoneNumber: $phoneNumber, email: $email, password: $password, idNumber: $idNumber, national: $national, idImage: $idImage, address: $address, personal: $personal, bankIBAN: $bankIBAN, commercial: $commercial, headquarters: $headquarters)';
   }
 }

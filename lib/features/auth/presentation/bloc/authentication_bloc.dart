@@ -15,8 +15,7 @@ import '../../domain/repository/auth_repository.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthRepository _authRepository = di.instance<AuthRepository>();
   final AuthPreferences _authPreferences = di.instance<AuthPreferences>();
   final StorageFileRepository _fileRepository = StorageFileRepository();
@@ -43,8 +42,7 @@ class AuthenticationBloc
     on<RegisterButtonPressed>((event, emit) async {
       emit(AuthenticationInProgress());
 
-      await (await _authRepository.register(event.registerRequest)).fold(
-          (failure) {
+      await (await _authRepository.register(event.registerRequest)).fold((failure) {
         emit(AuthenticationFailed(failure.message));
       }, (employee) async {
         bool success = true;
@@ -56,9 +54,8 @@ class AuthenticationBloc
 
           emit(UploadingImages(message: "$i/${uploads.length}"));
 
-          await (await _fileRepository.uploadFile(
-                  uploads[i].file, uploads[i].fileName))
-              .fold(((failure) async {
+          await (await _fileRepository.uploadFile(uploads[i].file, uploads[i].fileName)).fold(
+              ((failure) async {
             emit(AuthenticationFailed(failure.message));
             _authRepository.deleteEmployee(employee.email);
             success = false;
@@ -82,8 +79,7 @@ class AuthenticationBloc
     });
 
     on<AppStarted>((event, emit) async {
-      (await _authRepository.getCurrentUserIfExists()).fold(((l) {}),
-          ((employee) async {
+      (await _authRepository.getCurrentUserIfExists()).fold(((l) {}), ((employee) async {
         if (employee != null) {
           emit(AuthenticationSuccess(employee: employee));
           await _authPreferences.setPermission(employee.permissions);
@@ -113,8 +109,8 @@ _getUploadingFileList(RegisterButtonPressed event) {
   final String thisEmployeePath = event.registerRequest.email;
   return [
     // id image
-    UploadFileParams(event.registerRequest.id,
-        '$employees/$thisEmployeePath/id.${event.registerRequest.id.getExtension()}'),
+    UploadFileParams(event.registerRequest.idImage,
+        '$employees/$thisEmployeePath/id.${event.registerRequest.idImage.getExtension()}'),
     // address image
     UploadFileParams(event.registerRequest.address,
         '$employees/$thisEmployeePath/address.${event.registerRequest.address.getExtension()}'),
