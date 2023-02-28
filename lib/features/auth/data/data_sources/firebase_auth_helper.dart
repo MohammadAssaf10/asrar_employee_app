@@ -49,7 +49,7 @@ class FirebaseAuthHelper {
     await _firestore
         .collection(employeeCollectionPath)
         .doc(registerRequest.employeeID)
-        .set({'employeeID': firebaseUser.user!.uid, ...registerRequest.toMap()});
+        .set(registerRequest.toMap());
 
     return await getEmployee(registerRequest.employeeID);
   }
