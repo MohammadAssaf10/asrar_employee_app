@@ -15,15 +15,16 @@ class FirebaseAuthHelper {
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Future<Employee> login(LoginRequest loginRequest) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
-        email: loginRequest.email, password: loginRequest.password);
-
-    return await getEmployee(loginRequest.email);
+    final employee= (await _firebaseAuth.signInWithEmailAndPassword(
+            email: loginRequest.email, password: loginRequest.password))
+        .user;
+    return await getEmployee(employee!.uid);
   }
 
-  Future<Employee> getEmployee(String email) async {
+  Future<Employee> getEmployee(String id) async {
     final employeeMap =
-        (await _firestore.collection(employeeCollectionPath).doc(email).get()).data();
+        (await _firestore.collection(employeeCollectionPath).doc(id).get())
+            .data();
 
     if (employeeMap == null) {
       throw FirebaseAuthException(code: "auth/user-not-found");
@@ -44,7 +45,10 @@ class FirebaseAuthHelper {
     var firebaseUser = await _firebaseAuth.createUserWithEmailAndPassword(
         email: registerRequest.email, password: registerRequest.password);
 
-    registerRequest = registerRequest.copyWith(employeeID: firebaseUser.user!.uid);
+    List<String> employeeTokenList = await addUserToken(firebaseUser.user!.uid);
+    registerRequest = registerRequest.copyWith(
+        employeeID: firebaseUser.user!.uid,
+        employeeTokenList: employeeTokenList);
 
     await _firestore
         .collection(employeeCollectionPath)
@@ -67,7 +71,10 @@ class FirebaseAuthHelper {
   }
 
   Future<void> deleteEmployeeData(String email) async {
-    return await _firestore.collection(employeeCollectionPath).doc(email).delete();
+    return await _firestore
+        .collection(employeeCollectionPath)
+        .doc(email)
+        .delete();
   }
 
   Future<void> deleteEmployeeImages(String email) async {
@@ -77,12 +84,13 @@ class FirebaseAuthHelper {
     }
   }
 
-  Future<List<String>> createAndAddToEmployeeListToken(String userEmail, String? token) async {
+  Future<List<String>> createAndAddToEmployeeListToken(
+      String employeeID, String? token) async {
     List<String> employeeTokenList = [];
     if (token != null) employeeTokenList.add(token);
     await _firestore
         .collection(employeeCollectionPath)
-        .doc(userEmail)
+        .doc(employeeID)
         .set({'employeeTokenList': employeeTokenList});
 
     return employeeTokenList;
@@ -90,10 +98,14 @@ class FirebaseAuthHelper {
 
   Future<List<String>> addUserToken(String employeeID) async {
     final String? userToken = await _messaging.getToken();
-    final userDoc = await _firestore.collection(employeeCollectionPath).doc(employeeID).get();
+    final userDoc = await _firestore
+        .collection(employeeCollectionPath)
+        .doc(employeeID)
+        .get();
 
     try {
-      final List<String> employeeTokenList = userDoc['employeeTokenList']?.cast<String>() ?? [];
+      final List<String> employeeTokenList =
+          userDoc['employeeTokenList']?.cast<String>() ?? [];
 
       if (userToken != null && !employeeTokenList.contains(userToken)) {
         employeeTokenList.add(userToken);
@@ -112,7 +124,10 @@ class FirebaseAuthHelper {
   Future<void> deleteUserToken(String employeeID) async {
     final String? employeeToken = await _messaging.getToken();
     if (employeeToken != null) {
-      final userDoc = await _firestore.collection(employeeCollectionPath).doc(employeeID).get();
+      final userDoc = await _firestore
+          .collection(employeeCollectionPath)
+          .doc(employeeID)
+          .get();
       final List employeeTokenList = userDoc['employeeTokenList'];
       if (employeeTokenList.contains(employeeToken)) {
         employeeTokenList.remove(employeeToken);
@@ -125,7 +140,10 @@ class FirebaseAuthHelper {
   }
 
   Future<Employee> updateEmployeeData(Employee employee) async {
-    await _firestore.collection(employeeCollectionPath).doc(employee.email).set(employee.toMap());
+    await _firestore
+        .collection(employeeCollectionPath)
+        .doc(employee.email)
+        .set(employee.toMap());
 
     return employee;
   }

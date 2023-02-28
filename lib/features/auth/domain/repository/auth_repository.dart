@@ -11,5 +11,4 @@ abstract class AuthRepository {
   Future<Either<Failure, Employee?>> getCurrentUserIfExists();
   Future<Either<Failure, void>> logout(String employeeID);
   Future<void> deleteEmployee(String id);
-  Future<Either<Failure, Employee>> updateEmployeeData(Employee employee);
 }

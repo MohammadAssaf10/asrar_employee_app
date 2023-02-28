@@ -6,17 +6,14 @@ import '../../../../core/data/failure.dart';
 import '../../../../core/network/network_info.dart';
 import '../../domain/entities/employee.dart';
 import '../../domain/repository/auth_repository.dart';
-import '../data_sources/auth_prefs.dart';
 import '../data_sources/firebase_auth_helper.dart';
 import '../models/requests.dart';
 
 class FirebaseAuthRepository implements AuthRepository {
   final FirebaseAuthHelper _authHelper;
   final NetworkInfo _networkInfo;
-  final AuthPreferences _authPreference;
 
-  FirebaseAuthRepository(
-      this._authHelper, this._networkInfo, this._authPreference);
+  FirebaseAuthRepository(this._authHelper, this._networkInfo);
 
   @override
   Future<Either<Failure, Employee>> login(LoginRequest loginRequest) async {
@@ -26,7 +23,9 @@ class FirebaseAuthRepository implements AuthRepository {
     }
 
     try {
-      return Right(await _authHelper.login(loginRequest));
+      final employee=await _authHelper.login(loginRequest);
+      await _authHelper.addUserToken(_authHelper.getCurrentUser()!.uid);
+      return Right(employee);
     } catch (e) {
       return Left(ExceptionHandler.handle(e).failure);
     }
@@ -64,7 +63,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
       if (user == null || user.email == null) return const Right(null);
 
-      Employee employee = await _authHelper.getEmployee(user.email!);
+      Employee employee = await _authHelper.getEmployee(user.uid);
 
       return Right(employee);
     } catch (e) {
@@ -88,21 +87,5 @@ class FirebaseAuthRepository implements AuthRepository {
     await _authHelper.deleteUser();
     await _authHelper.deleteEmployeeData(id);
     await _authHelper.deleteEmployeeImages(id);
-  }
-
-  // this method called in every signIn or registering
-  // because if it from google it can be the first sign in
-  @override
-  Future<Either<Failure, Employee>> updateEmployeeData(
-      Employee employee) async {
-    try {
-      employee.employeeTokenList = await _authHelper.addUserToken(employee.email);
-      _authPreference.setUserLoggedIn();
-      _authPreference.setEmployee(employee);
-
-      return Right(await _authHelper.updateEmployeeData(employee));
-    } catch (e) {
-      return Left(ExceptionHandler.handle(e).failure);
-    }
   }
 }

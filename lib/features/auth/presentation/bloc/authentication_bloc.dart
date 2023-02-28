@@ -13,9 +13,11 @@ import '../../domain/entities/permissions.dart';
 import '../../domain/repository/auth_repository.dart';
 
 part 'authentication_event.dart';
+
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthRepository _authRepository = di.instance<AuthRepository>();
   final AuthPreferences _authPreferences = di.instance<AuthPreferences>();
   final StorageFileRepository _fileRepository = StorageFileRepository();
@@ -42,7 +44,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<RegisterButtonPressed>((event, emit) async {
       emit(AuthenticationInProgress());
 
-      await (await _authRepository.register(event.registerRequest)).fold((failure) {
+      await (await _authRepository.register(event.registerRequest)).fold(
+          (failure) {
         emit(AuthenticationFailed(failure.message));
       }, (employee) async {
         bool success = true;
@@ -54,8 +57,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
           emit(UploadingImages(message: "$i/${uploads.length}"));
 
-          await (await _fileRepository.uploadFile(uploads[i].file, uploads[i].fileName)).fold(
-              ((failure) async {
+          await (await _fileRepository.uploadFile(
+                  uploads[i].file, uploads[i].fileName))
+              .fold(((failure) async {
             emit(AuthenticationFailed(failure.message));
             _authRepository.deleteEmployee(employee.email);
             success = false;
@@ -79,7 +83,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     });
 
     on<AppStarted>((event, emit) async {
-      (await _authRepository.getCurrentUserIfExists()).fold(((l) {}), ((employee) async {
+      (await _authRepository.getCurrentUserIfExists()).fold(((l) {}),
+          ((employee) async {
         if (employee != null) {
           emit(AuthenticationSuccess(employee: employee));
           await _authPreferences.setPermission(employee.permissions);
@@ -88,11 +93,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     });
 
     on<LogOut>((event, emit) async {
-      //TODO:set the user id
-      await _authRepository.logout("");
-      // tuned all permission to false
-      await _authPreferences.setPermission(Permissions.fromMap({}));
-      emit(AuthenticationInitial());
+      await (await _authRepository.getCurrentUserIfExists()).fold((l) {},
+          (employee) async {
+        if (employee != null) {
+          await _authRepository.logout(employee.employeeID);
+          // tuned all permission to false
+          await _authPreferences.setPermission(Permissions.fromMap({}));
+          emit(AuthenticationInitial());
+        }
+      });
     });
   }
 }

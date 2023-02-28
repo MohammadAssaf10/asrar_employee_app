@@ -72,7 +72,7 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
           email: newEmail,
           phoneNumber: newPhoneNumber,
         );
-        await authRepository.updateEmployeeData(oldEmployee);
+        // await authRepository.updateEmployeeData(oldEmployee);
         return const Right(unit);
       } catch (e) {
         return Left(ExceptionHandler.handle(e).failure);

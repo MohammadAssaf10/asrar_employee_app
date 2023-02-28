@@ -29,23 +29,25 @@ class RegisterRequest {
   File bankIBAN;
   File commercial;
   File headquarters;
+  List<String> employeeTokenList;
 
   RegisterRequest(
-    this.employeeID,
-    this.name,
-    this.phoneNumber,
-    this.email,
-    this.password,
-    this.idNumber,
-    this.national,
-    this.idImage,
-    this.address,
-    this.personal,
-    this.bankIBAN,
-    this.commercial,
-    this.headquarters,
-  );
+      this.employeeID,
+      this.name,
+      this.phoneNumber,
+      this.email,
+      this.password,
+      this.idNumber,
+      this.national,
+      this.idImage,
+      this.address,
+      this.personal,
+      this.bankIBAN,
+      this.commercial,
+      this.headquarters,
+      this.employeeTokenList);
 
+/*
   RegisterRequest.forTest(this.email, File file)
       : employeeID = '',
         name = '',
@@ -58,9 +60,11 @@ class RegisterRequest {
         personal = file,
         bankIBAN = file,
         commercial = file,
-        headquarters = file;
-
-  RegisterRequest.fromObject(EmployeeTextFields textFields, EmployeeImages images)
+        headquarters = file,
+        employeeTokenList = [];
+*/
+  RegisterRequest.fromObject(
+      EmployeeTextFields textFields, EmployeeImages images)
       : employeeID = '',
         name = textFields.name!,
         phoneNumber = textFields.phonNumber!,
@@ -73,7 +77,8 @@ class RegisterRequest {
         personal = images.personal!,
         bankIBAN = images.bankIBAN!,
         commercial = images.commercial!,
-        headquarters = images.headquarters!;
+        headquarters = images.headquarters!,
+        employeeTokenList = [];
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
@@ -82,9 +87,9 @@ class RegisterRequest {
     result.addAll({'name': name});
     result.addAll({'phoneNumber': phoneNumber});
     result.addAll({'email': email});
-    result.addAll({'password': password});
     result.addAll({'idNumber': idNumber});
     result.addAll({'national': national});
+    result.addAll({'employeeTokenList': employeeTokenList});
 
     return result;
   }
@@ -103,6 +108,7 @@ class RegisterRequest {
     File? bankIBAN,
     File? commercial,
     File? headquarters,
+    List<String>? employeeTokenList,
   }) {
     return RegisterRequest(
       employeeID ?? this.employeeID,
@@ -118,6 +124,7 @@ class RegisterRequest {
       bankIBAN ?? this.bankIBAN,
       commercial ?? this.commercial,
       headquarters ?? this.headquarters,
+      employeeTokenList ?? this.employeeTokenList,
     );
   }
 

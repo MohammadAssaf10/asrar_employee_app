@@ -77,10 +77,6 @@ class _SignUpState extends State<SignUp> {
                           BlocProvider.of<AuthenticationBloc>(context).add(RegisterButtonPressed(
                               RegisterRequest.fromObject(_textFields, _images)));
                         }
-
-                        // TODO: delete this after finish test
-                        BlocProvider.of<AuthenticationBloc>(context).add(RegisterButtonPressed(
-                              RegisterRequest.forTest(_textFields.email!, _images.id!)));
                       },
                       text: AppStrings.registerNewAccount.tr(context)),
                 ],
