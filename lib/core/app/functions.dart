@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,11 +17,11 @@ import '../../features/chat/domain/entities/file_entities.dart';
 
 String? nameValidator(String? name, BuildContext context) {
   if (name.nullOrEmpty()) {
-    return "";//AppStrings.pleaseEnterName.tr(context);
+    return ""; //AppStrings.pleaseEnterName.tr(context);
   }
 
   if (name!.length < 3) {
-    return "";//AppStrings.nameTooShort.tr(context);
+    return ""; //AppStrings.nameTooShort.tr(context);
   }
 
   return null;
@@ -30,7 +29,7 @@ String? nameValidator(String? name, BuildContext context) {
 
 String? mobileNumberValidator(String? phone, BuildContext context) {
   if (phone.nullOrEmpty()) {
-    return "";//AppStrings.pleaseEnterName.tr(context);
+    return ""; //AppStrings.pleaseEnterName.tr(context);
   }
 
   if (!isMobileNumberCorrect(phone!)) {
@@ -42,11 +41,11 @@ String? mobileNumberValidator(String? phone, BuildContext context) {
 
 String? emailValidator(String? email, BuildContext context) {
   if (email.nullOrEmpty()) {
-    return "";//AppStrings.pleaseEnterName.tr(context);
+    return ""; //AppStrings.pleaseEnterName.tr(context);
   }
 
   if (!isEmailFormatCorrect(email!)) {
-    return "";//AppStrings.emailFormatNotCorrect.tr(context);
+    return ""; //AppStrings.emailFormatNotCorrect.tr(context);
   }
 
   return null;
@@ -79,7 +78,8 @@ dismissDialog(BuildContext context) {
   }
 }
 
-void showCustomDialog(BuildContext context, {String? message, String? jsonPath}) {
+void showCustomDialog(BuildContext context,
+    {String? message, String? jsonPath}) {
   SchedulerBinding.instance.addPostFrameCallback((_) {
     dismissDialog(context);
     showDialog(
@@ -138,6 +138,13 @@ Future<FileEntities> uploadFile(String path, XFile xFile) async {
   return file;
 }
 
+// fullPath: file path with name
+Future<void> deleteFile(String fullPath) async {
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+  final Reference ref = firebaseStorage.ref(fullPath);
+  await ref.delete();
+}
+
 Future<XFile?> selectFile(BuildContext context) async {
   final ImagePicker picker = ImagePicker();
   XFile? image = await showDialog(
@@ -153,7 +160,8 @@ Future<XFile?> selectFile(BuildContext context) async {
                 AppStrings.camera.tr(context),
               ),
               onPressed: () async {
-                Navigator.pop(context, await picker.pickImage(source: ImageSource.camera));
+                Navigator.pop(context,
+                    await picker.pickImage(source: ImageSource.camera));
               },
             ),
             SimpleDialogOption(
@@ -161,7 +169,8 @@ Future<XFile?> selectFile(BuildContext context) async {
                 AppStrings.gallery.tr(context),
               ),
               onPressed: () async {
-                Navigator.pop(context, await picker.pickImage(source: ImageSource.gallery));
+                Navigator.pop(context,
+                    await picker.pickImage(source: ImageSource.gallery));
               },
             )
           ],

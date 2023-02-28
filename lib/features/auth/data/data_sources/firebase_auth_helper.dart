@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../domain/entities/employee.dart';
@@ -11,6 +12,7 @@ class FirebaseAuthHelper {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
 
   Future<Employee> login(LoginRequest loginRequest) async {
     await _firebaseAuth.signInWithEmailAndPassword(
@@ -21,7 +23,8 @@ class FirebaseAuthHelper {
 
   Future<Employee> getEmployee(String email) async {
     final employeeMap =
-        (await _firestore.collection(employeeCollectionPath).doc(email).get()).data();
+        (await _firestore.collection(employeeCollectionPath).doc(email).get())
+            .data();
 
     if (employeeMap == null) {
       throw FirebaseAuthException(code: "auth/user-not-found");
@@ -46,7 +49,6 @@ class FirebaseAuthHelper {
         .collection(employeeCollectionPath)
         .doc(registerRequest.email)
         .set(registerRequest.toMap());
-
     return await getEmployee(registerRequest.email);
   }
 
@@ -63,7 +65,10 @@ class FirebaseAuthHelper {
   }
 
   Future<void> deleteEmployeeData(String email) async {
-    return await _firestore.collection(employeeCollectionPath).doc(email).delete();
+    return await _firestore
+        .collection(employeeCollectionPath)
+        .doc(email)
+        .delete();
   }
 
   Future<void> deleteEmployeeImages(String email) async {
@@ -71,5 +76,69 @@ class FirebaseAuthHelper {
     for (var i in t) {
       await i.delete();
     }
+  }
+
+  Future<List<String>> createAndAddToEmployeeListToken(
+      String userEmail, String? token) async {
+    List<String> employeeTokenList = [];
+    if (token != null) employeeTokenList.add(token);
+    await _firestore
+        .collection(employeeCollectionPath)
+        .doc(userEmail)
+        .set({'employeeTokenList': employeeTokenList});
+
+    return employeeTokenList;
+  }
+
+  Future<List<String>> addUserToken(String employeeID) async {
+    final String? userToken = await _messaging.getToken();
+    final userDoc = await _firestore
+        .collection(employeeCollectionPath)
+        .doc(employeeID)
+        .get();
+
+    try {
+      final List<String> employeeTokenList =
+          userDoc['employeeTokenList']?.cast<String>() ?? [];
+
+      if (userToken != null && !employeeTokenList.contains(userToken)) {
+        employeeTokenList.add(userToken);
+        await _firestore
+            .collection(employeeCollectionPath)
+            .doc(employeeID)
+            .update({"employeeTokenList": employeeTokenList});
+      }
+
+      return employeeTokenList;
+    } catch (e) {
+      return createAndAddToEmployeeListToken(employeeID, userToken);
+    }
+  }
+
+  Future<void> deleteUserToken(String employeeID) async {
+    final String? employeeToken = await _messaging.getToken();
+    if (employeeToken != null) {
+      final userDoc = await _firestore
+          .collection(employeeCollectionPath)
+          .doc(employeeID)
+          .get();
+      final List employeeTokenList = userDoc['employeeTokenList'];
+      if (employeeTokenList.contains(employeeToken)) {
+        employeeTokenList.remove(employeeToken);
+        await _firestore
+            .collection(employeeCollectionPath)
+            .doc(employeeID)
+            .update({"employeeTokenList": employeeTokenList});
+      }
+    }
+  }
+
+  Future<Employee> updateEmployeeData(Employee employee) async {
+    await _firestore
+        .collection(employeeCollectionPath)
+        .doc(employee.email)
+        .set(employee.toMap());
+
+    return employee;
   }
 }

@@ -37,7 +37,7 @@ Future<void> initAppModule() async {
 void initAuthenticationModule() {
   if (!GetIt.I.isRegistered<AuthRepository>()) {
     instance.registerLazySingleton<AuthRepository>(
-        () => FirebaseAuthRepository(instance(), instance()));
+        () => FirebaseAuthRepository(instance(), instance(),instance<AuthPreferences>()));
   }
 }
 

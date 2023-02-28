@@ -92,7 +92,8 @@ class AuthenticationBloc
     });
 
     on<LogOut>((event, emit) async {
-      await _authRepository.logout();
+      //TODO:set the user id
+      await _authRepository.logout("");
       // tuned all permission to false
       await _authPreferences.setPermission(Permissions.fromMap({}));
       emit(AuthenticationInitial());

@@ -16,7 +16,7 @@ class LoginRequest extends Equatable {
 
 class RegisterRequest {
   String name;
-  String phonNumber;
+  String phoneNumber;
   String email;
   String password;
   String idNumber;
@@ -31,7 +31,7 @@ class RegisterRequest {
 
   RegisterRequest(
     this.name,
-    this.phonNumber,
+    this.phoneNumber,
     this.email,
     this.password,
     this.idNumber,
@@ -44,9 +44,10 @@ class RegisterRequest {
     this.headquarters,
   );
 
-  RegisterRequest.fromObject(EmployeeTextFields textFields, EmployeeImages images)
+  RegisterRequest.fromObject(
+      EmployeeTextFields textFields, EmployeeImages images)
       : name = textFields.name!,
-        phonNumber = textFields.phonNumber!,
+        phoneNumber = textFields.phonNumber!,
         email = textFields.email!,
         password = textFields.password!,
         idNumber = textFields.idNumber!,
@@ -62,7 +63,7 @@ class RegisterRequest {
     final result = <String, dynamic>{};
 
     result.addAll({'name': name});
-    result.addAll({'phonNumber': phonNumber});
+    result.addAll({'phoneNumber': phoneNumber});
     result.addAll({'email': email});
     result.addAll({'password': password});
     result.addAll({'idNumber': idNumber});
