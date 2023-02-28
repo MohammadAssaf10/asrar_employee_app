@@ -44,8 +44,20 @@ class RegisterRequest {
     this.headquarters,
   );
 
-  RegisterRequest.fromObject(
-      EmployeeTextFields textFields, EmployeeImages images)
+  RegisterRequest.forTest(this.email, File file)
+      : name = '',
+        phoneNumber = '',
+        password = '123456',
+        idNumber = '',
+        national = '',
+        id = file,
+        address = file,
+        personal = file,
+        bankIBAN = file,
+        commercial = file,
+        headquarters = file;
+
+  RegisterRequest.fromObject(EmployeeTextFields textFields, EmployeeImages images)
       : name = textFields.name!,
         phoneNumber = textFields.phonNumber!,
         email = textFields.email!,

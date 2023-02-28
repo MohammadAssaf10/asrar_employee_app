@@ -45,8 +45,7 @@ class _SignUpState extends State<SignUp> {
           ),
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: AppSize.s30.w, vertical: AppSize.s18.h),
+              padding: EdgeInsets.symmetric(horizontal: AppSize.s30.w, vertical: AppSize.s18.h),
               child: Center(
                   child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -71,15 +70,17 @@ class _SignUpState extends State<SignUp> {
                   FullElevatedButton(
                       onPressed: () {
                         if (!_textFields.isAllFieldsFiled()) {
-                          showCustomDialog(context,
-                              message: AppStrings.enterAllFields.tr(context));
+                          showCustomDialog(context, message: AppStrings.enterAllFields.tr(context));
                         } else if (!_images.isAllFieldsFiled()) {
-                          showCustomDialog(context,
-                              message: AppStrings.enterAllImages.tr(context));
+                          showCustomDialog(context, message: AppStrings.enterAllImages.tr(context));
+                        } else {
+                          BlocProvider.of<AuthenticationBloc>(context).add(RegisterButtonPressed(
+                              RegisterRequest.fromObject(_textFields, _images)));
                         }
-                        BlocProvider.of<AuthenticationBloc>(context).add(
-                            RegisterButtonPressed(RegisterRequest.fromObject(
-                                _textFields, _images)));
+
+                        // TODO: delete this after finish test
+                        BlocProvider.of<AuthenticationBloc>(context).add(RegisterButtonPressed(
+                              RegisterRequest.forTest(_textFields.email!, _images.id!)));
                       },
                       text: AppStrings.registerNewAccount.tr(context)),
                 ],
