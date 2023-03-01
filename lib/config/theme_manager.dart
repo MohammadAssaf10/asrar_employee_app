@@ -9,7 +9,6 @@ import 'values_manager.dart';
 ThemeData getApplicationTheme() {
   return ThemeData(
     scaffoldBackgroundColor: ColorManager.backgroundColor,
-
     // app bar theme
     appBarTheme: AppBarTheme(
       backgroundColor: ColorManager.primary,
@@ -23,52 +22,79 @@ ThemeData getApplicationTheme() {
       centerTitle: true,
       elevation: AppSize.s0,
       titleTextStyle: getAlmaraiRegularStyle(
-          fontSize: AppSize.s16.sp, color: ColorManager.white),
+          fontSize: AppSize.s17.sp, color: ColorManager.white),
     ),
 
-    // text theme
+    errorColor: ColorManager.error,
+
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: ColorManager.primary,
+      selectionHandleColor: ColorManager.primary,
+    ),
+
     textTheme: TextTheme(
-      titleLarge: TextStyle(fontSize: 30.sp),
+      subtitle1: getAlmaraiRegularStyle(
+        fontSize: AppSize.s18.sp,
+        color: ColorManager.primary,
+      ),
     ),
 
     // input decoration theme (text form field)
-    errorColor: ColorManager.error,
     inputDecorationTheme: InputDecorationTheme(
       // hint style
-      hintStyle: getAlmaraiBoldStyle(
+      hintStyle: getAlmaraiRegularStyle(
           color: ColorManager.darkPrimary, fontSize: AppSize.s16.sp),
       labelStyle: getAlmaraiRegularStyle(
           color: ColorManager.darkPrimary, fontSize: AppSize.s16.sp),
       errorStyle: getAlmaraiRegularStyle(
-          color: ColorManager.error, fontSize: AppSize.s16.sp),
-
+          color: ColorManager.error, fontSize: AppSize.s14.sp),
+      suffixIconColor: ColorManager.primary,
+      border: OutlineInputBorder(
+        borderSide:
+        BorderSide(color: ColorManager.primary, width: AppSize.s1_5.w),
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSize.s18.r),
+        ),
+      ),
       // enabled border style
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: ColorManager.grey),
-        borderRadius: BorderRadius.all(Radius.circular(AppSize.s12.r)),
+        borderSide: BorderSide(color: ColorManager.grey, width: AppSize.s1_5.w),
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSize.s18.r),
+        ),
       ),
-
       // focused border style
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: ColorManager.primary),
-        borderRadius: BorderRadius.all(Radius.circular(AppSize.s12.r)),
+        borderSide:
+        BorderSide(color: ColorManager.primary, width: AppSize.s1_5.w),
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSize.s18.r),
+        ),
       ),
       // error border style
       errorBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: ColorManager.error),
-        borderRadius: BorderRadius.all(Radius.circular(AppSize.s12.r)),
+        borderSide:
+        const BorderSide(color: ColorManager.error),
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSize.s18.r),
+        ),
       ),
-      // focused border style
+      // focused error border style
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide:
+        const BorderSide(color: ColorManager.error),
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppSize.s18.r),
+        ),
+      ),
     ),
-
     // icon theme
     iconTheme: IconThemeData(color: ColorManager.white, size: AppSize.s25.sp),
-
     // text button
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith(
-          (states) {
+              (states) {
             if (states.contains(MaterialState.disabled)) {
               return ColorManager.grey;
             } else {
@@ -87,7 +113,6 @@ ThemeData getApplicationTheme() {
         }),
       ),
     ),
-
     // elevated button
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
@@ -120,7 +145,7 @@ ThemeData getApplicationTheme() {
           }
         }),
         side: MaterialStateProperty.resolveWith(
-            (states) => const BorderSide(color: ColorManager.primary)),
+                (states) => const BorderSide(color: ColorManager.primary)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSize.s20.r),
@@ -128,7 +153,6 @@ ThemeData getApplicationTheme() {
         ),
       ),
     ),
-
     // outline button
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
@@ -147,7 +171,7 @@ ThemeData getApplicationTheme() {
             }
           }),
           side: MaterialStateProperty.resolveWith(
-              (states) => const BorderSide(color: ColorManager.primary)),
+                  (states) => const BorderSide(color: ColorManager.primary)),
           elevation: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.disabled)) {
               return AppSize.s0;

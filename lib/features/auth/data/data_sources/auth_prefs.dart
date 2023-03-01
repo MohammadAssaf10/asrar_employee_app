@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../domain/entities/employee.dart';
 import '../../domain/entities/permissions.dart';
 
 const String kIsUserLoggedInKey = "is user logged in";
@@ -14,7 +13,6 @@ const String kStoreManagement = "kStoreManagement";
 const String kOffersManagement = "kOffersManagement";
 const String kIsRejected = "kIsRejected";
 const String kTechnicalSupport = "kTechnicalSupport";
-const String kEmployee = 'employee';
 
 class AuthPreferences {
   final SharedPreferences _sharedPreferences;
@@ -23,14 +21,6 @@ class AuthPreferences {
 
   Future<void> setPermission(Permissions permissions) async {
     await _sharedPreferences.setBool(kCanWork, permissions.canWork);
-  }
-
-  void setUserLoggedIn() {
-    _sharedPreferences.setBool(kIsUserLoggedInKey, true);
-  }
-
-  void setEmployee(Employee employee) {
-    _sharedPreferences.setString(kEmployee, employee.toJson());
   }
 
   bool canWork() {

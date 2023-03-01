@@ -14,6 +14,8 @@ import '../../config/values_manager.dart';
 import '../../config/app_localizations.dart';
 import '../../core/app/extensions.dart';
 import '../../features/chat/domain/entities/file_entities.dart';
+import '../../features/home/presentation/widgets/general/input_form_field.dart';
+import '../../features/home/presentation/widgets/general/optionButton.dart';
 
 String? nameValidator(String? name, BuildContext context) {
   if (name.nullOrEmpty()) {
@@ -67,6 +69,25 @@ bool isEmailFormatCorrect(String email) {
 
 bool isMobileNumberCorrect(String mobileNumber) {
   return RegExp(r"^[+]*[0-9]+").hasMatch(mobileNumber);
+}
+RegExp getNumberInputFormat() {
+  return RegExp(r'^[0-9]+');
+}
+
+RegExp getDoubleInputFormat() {
+  return RegExp(r'(^\d*\.?\d*)');
+}
+
+RegExp getTextWithNumberInputFormat() {
+  return RegExp(r"^[.@a-zA-Z0-9ء-ي\s]+");
+}
+
+RegExp getArabicAndEnglishTextInputFormat() {
+  return RegExp(r"^[a-zA-Zء-ي\s]+");
+}
+
+RegExp getAllKeyboradInputFormat() {
+  return RegExp(r"^([،a-zA-Z\u0020-\u007Eء-ي\n]+)");
 }
 
 _isCurrentDialogShowing(BuildContext context) =>
@@ -137,13 +158,56 @@ Future<FileEntities> uploadFile(String path, XFile xFile) async {
   final FileEntities file = FileEntities(name: xFile.name, url: fileURL);
   return file;
 }
-
-// fullPath: file path with name
-Future<void> deleteFile(String fullPath) async {
-  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
-  final Reference ref = firebaseStorage.ref(fullPath);
-  await ref.delete();
+void showNewPasswordDialog(
+    BuildContext context,
+    TextEditingController passwordController,
+    GlobalKey<FormState> formKey,
+    Function onTap,
+    ) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(
+            AppStrings.enterNewPassword.tr(context),
+            style: getAlmaraiRegularStyle(
+              fontSize: AppSize.s20.sp,
+              color: ColorManager.primary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            InputFormField(
+              formKey: formKey,
+              controller: passwordController,
+              hintText: AppStrings.newPassword.tr(context),
+              textInputType: TextInputType.text,
+              regExp: getTextWithNumberInputFormat(),
+              textAlign: TextAlign.center,
+              validator: (String? text) {
+                if (text == null || text == "" || text.isEmpty) {
+                  return AppStrings.fieldCantBeEmpty.tr(context);
+                } else if (text.length < 6) {
+                  return AppStrings.passwordShouldAtLeast6Character.tr(context);
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: AppSize.s10.h),
+            OptionButton(
+              onTap: () {
+                if (passwordController.text.isNotEmpty) onTap();
+              },
+              title: AppStrings.save.tr(context),
+              height: AppSize.s35.h,
+              width: AppSize.s120.w,
+              fontSize: AppSize.s20.sp,
+            ),
+          ],
+        );
+      });
 }
+
 
 Future<XFile?> selectFile(BuildContext context) async {
   final ImagePicker picker = ImagePicker();

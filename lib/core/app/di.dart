@@ -9,8 +9,10 @@ import '../../features/auth/data/repository/firebase_auth_repository.dart';
 import '../../features/auth/domain/repository/auth_repository.dart';
 import '../../features/chat/data/repositories/firebase_chat_repository.dart';
 import '../../features/chat/domain/repositories/chat_repository.dart';
+import '../../features/home/data/repositories/employee_repository_impl.dart';
 import '../../features/home/data/repositories/firebase_service_order_repository.dart';
 import '../../features/home/domain/entities/service_order.dart';
+import '../../features/home/domain/repositories/employee_repository.dart';
 import '../../features/home/domain/repositories/service_order_repository.dart';
 import '../network/network_info.dart';
 
@@ -25,13 +27,18 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<SharedPreferences>(() => sharedPref);
 
   // auth pref instance
-  instance
-      .registerLazySingleton<AuthPreferences>(() => AuthPreferences(instance<SharedPreferences>()));
+  instance.registerLazySingleton<AuthPreferences>(
+      () => AuthPreferences(instance<SharedPreferences>()));
 
   // network info
-  instance.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(InternetConnectionChecker()));
+  instance.registerLazySingleton<NetworkInfo>(
+      () => NetworkInfoImpl(InternetConnectionChecker()));
 
-  instance.registerLazySingleton<FirebaseAuthHelper>(() => FirebaseAuthHelper());
+  instance
+      .registerLazySingleton<FirebaseAuthHelper>(() => FirebaseAuthHelper());
+  instance.registerLazySingleton<EmployeeRepository>(
+    () => EmployeeRepositoryImpl(networkInfo: instance()),
+  );
 }
 
 void initAuthenticationModule() {
@@ -43,7 +50,8 @@ void initAuthenticationModule() {
 
 void initHomeModule() {
   if (!GetIt.I.isRegistered<ServiceOrderRepository>()) {
-    instance.registerLazySingleton<ServiceOrderRepository>(() => FirebaseServiceOrderRepository());
+    instance.registerLazySingleton<ServiceOrderRepository>(
+        () => FirebaseServiceOrderRepository());
   }
 }
 
@@ -52,6 +60,6 @@ void initChatModule(ServiceOrder serviceOrder) {
     instance.unregister<ChatRepository>();
   }
 
-  instance.registerFactory<ChatRepository>(() =>
-      FirebaseChatRepository(FirebaseFirestore.instance, instance<NetworkInfo>(), serviceOrder));
+  instance.registerFactory<ChatRepository>(() => FirebaseChatRepository(
+      FirebaseFirestore.instance, instance<NetworkInfo>(), serviceOrder));
 }

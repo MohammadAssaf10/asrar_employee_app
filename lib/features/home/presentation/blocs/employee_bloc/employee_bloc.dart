@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../core/app/di.dart';
 import '../../../../auth/data/data_sources/firebase_auth_helper.dart';
 import '../../../../auth/domain/entities/employee.dart';
+import '../../../data/requests/employees_updates.dart';
 import '../../../domain/repositories/employee_repository.dart';
 
 part 'employee_event.dart';
@@ -25,7 +26,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
     });
     on<UpdateEmployeeImageEvent>((event, emit) async {
       emit(EmployeeLoadingState());
-      (await employeeRepository.updateEmployeeImage(event.image, event.employee)).fold(
+      (await employeeRepository.updateEmployeeImage(event.employeeUpdates, event.xFile)).fold(
           (failure) {
         emit(EmployeeErrorState(errorMessage: failure.message));
       }, (r) {
@@ -42,8 +43,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
     });
     on<UpdateEmployeeInfo>((event, emit) async {
       emit(EmployeeLoadingState());
-      (await employeeRepository.updateEmployeeInfo(event.oldEmployee, event.newEmail,
-              event.newName, event.newPhoneNumber))
+      (await employeeRepository.updateEmployeeInfo(event.employeeUpdates,event.newEmail))
           .fold((failure) {
         emit(EmployeeErrorState(errorMessage: failure.message));
       }, (r) {

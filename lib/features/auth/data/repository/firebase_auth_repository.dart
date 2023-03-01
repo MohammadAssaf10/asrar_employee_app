@@ -24,7 +24,7 @@ class FirebaseAuthRepository implements AuthRepository {
 
     try {
       final employee=await _authHelper.login(loginRequest);
-      await _authHelper.addUserToken(_authHelper.getCurrentUser()!.uid);
+      await _authHelper.addUserToken(employee.employeeID);
       return Right(employee);
     } catch (e) {
       return Left(ExceptionHandler.handle(e).failure);

@@ -70,10 +70,10 @@ class FirebaseAuthHelper {
     }
   }
 
-  Future<void> deleteEmployeeData(String email) async {
+  Future<void> deleteEmployeeData(String id) async {
     return await _firestore
         .collection(employeeCollectionPath)
-        .doc(email)
+        .doc(id)
         .delete();
   }
 
@@ -137,14 +137,5 @@ class FirebaseAuthHelper {
             .update({"employeeTokenList": employeeTokenList});
       }
     }
-  }
-
-  Future<Employee> updateEmployeeData(Employee employee) async {
-    await _firestore
-        .collection(employeeCollectionPath)
-        .doc(employee.email)
-        .set(employee.toMap());
-
-    return employee;
   }
 }

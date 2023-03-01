@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/app/di.dart';
+import '../features/auth/domain/entities/employee.dart';
 import '../features/auth/presentation/pages/auth_view.dart';
 import '../features/auth/presentation/pages/password_reset_view.dart';
 import '../features/auth/presentation/pages/sign_in_view.dart';
@@ -10,6 +11,7 @@ import '../features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import '../features/chat/presentation/pages/chat_screen.dart';
 import '../features/home/domain/entities/service_order.dart';
 import '../features/home/presentation/pages/main/main_view.dart';
+import '../features/home/presentation/pages/main/your_account.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
 
@@ -25,6 +27,7 @@ class Routes {
   static const String signIn = '/signIn';
   static const String signUp = '/signUp';
   static const String passwordReset = '/passwordReset';
+  static const String yourAccountRoute = "/yourAccount";
 }
 
 class RouteGenerator {
@@ -47,7 +50,11 @@ class RouteGenerator {
 
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const MainView());
-
+      case Routes.yourAccountRoute:
+        {
+          final arg = settings.arguments as Employee;
+          return MaterialPageRoute(builder: (_) => YourAccountScreen(arg));
+        }
       case Routes.chatRoute:
         {
           final arg = settings.arguments as ServiceOrder;

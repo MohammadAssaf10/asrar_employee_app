@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../config/app_localizations.dart';
 import '../../../../../config/assets_manager.dart';
 import '../../../../../config/strings_manager.dart';
 import '../../../../../config/values_manager.dart';
+import '../../../../auth/presentation/bloc/authentication_bloc.dart';
+import '../../blocs/employee_bloc/employee_bloc.dart';
 import '../../widgets/general/navigation_bar_bottom.dart';
 import 'customers_service_screen.dart';
 import 'my_orders_screen.dart';
@@ -20,8 +23,16 @@ class MainView extends StatelessWidget {
     PageController controller = PageController(initialPage: 2);
     return Scaffold(
       body: PageView(
+        onPageChanged: (v) {
+          final authState = BlocProvider.of<AuthenticationBloc>(context).state;
+
+          if (v == 4 && authState is AuthenticationSuccess) {
+            BlocProvider.of<EmployeeBloc>(context)
+                .add(GetEmployeeInfo(id: authState.employee.employeeID));
+          }
+        },
         controller: controller,
-        children: const  [
+        children: const [
           OrdersScreen(),
           MyWalletScreen(),
           MyOrdersScreen(),
