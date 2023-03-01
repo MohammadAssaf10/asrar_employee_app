@@ -70,6 +70,7 @@ bool isEmailFormatCorrect(String email) {
 bool isMobileNumberCorrect(String mobileNumber) {
   return RegExp(r"^[+]*[0-9]+").hasMatch(mobileNumber);
 }
+
 RegExp getNumberInputFormat() {
   return RegExp(r'^[0-9]+');
 }
@@ -158,12 +159,20 @@ Future<FileEntities> uploadFile(String path, XFile xFile) async {
   final FileEntities file = FileEntities(name: xFile.name, url: fileURL);
   return file;
 }
+
+// fullPath: file path with name
+Future<void> deleteFile(String fullPath) async {
+  final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+  final Reference ref = firebaseStorage.ref(fullPath);
+  await ref.delete();
+}
+
 void showNewPasswordDialog(
-    BuildContext context,
-    TextEditingController passwordController,
-    GlobalKey<FormState> formKey,
-    Function onTap,
-    ) {
+  BuildContext context,
+  TextEditingController passwordController,
+  GlobalKey<FormState> formKey,
+  Function onTap,
+) {
   showDialog(
       context: context,
       builder: (context) {
@@ -207,7 +216,6 @@ void showNewPasswordDialog(
         );
       });
 }
-
 
 Future<XFile?> selectFile(BuildContext context) async {
   final ImagePicker picker = ImagePicker();

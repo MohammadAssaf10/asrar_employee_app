@@ -12,7 +12,8 @@ import '../../../chat/domain/entities/file_entities.dart';
 import '../../domain/repositories/employee_repository.dart';
 import '../requests/employees_updates.dart';
 
-const String employeesUpdates = "EmployeesUpdates";
+const String employeesUpdateRequests = "employeesUpdateRequests";
+const String profileImagesEmployees = "profileImagesEmployees";
 
 class EmployeeRepositoryImpl extends EmployeeRepository {
   final FirebaseAuthHelper _authHelper = instance<FirebaseAuthHelper>();
@@ -26,17 +27,19 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
       EmployeeUpdatesRequest employeeUpdates, XFile xFile) async {
     if (await networkInfo.isConnected) {
       try {
-        final path = "$employeesUpdates/${employeeUpdates.employeeID}";
+        final path = "$profileImagesEmployees/${employeeUpdates.employeeID}";
         final FileEntities file =
             await uploadFile("$path/${employeeUpdates.newImageName}", xFile);
         employeeUpdates = employeeUpdates.copyWith(newImageURL: file.url);
-        final employeeUpdatesDoc = await firestore
-            .collection(employeesUpdates)
+        final employeeRequestDoc = await firestore
+            .collection(employeesUpdateRequests)
             .doc(employeeUpdates.employeeID)
             .get();
-        if (employeeUpdatesDoc.exists) {
+        if (employeeRequestDoc.exists) {
+          final image = await employeeRequestDoc.get("newImageName");
+          await deleteFile("$path/$image");
           await firestore
-              .collection(employeesUpdates)
+              .collection(employeesUpdateRequests)
               .doc(employeeUpdates.employeeID)
               .update({
             "newImageName": employeeUpdates.newImageName,
@@ -46,7 +49,7 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
           });
         } else {
           await firestore
-              .collection(employeesUpdates)
+              .collection(employeesUpdateRequests)
               .doc(employeeUpdates.employeeID)
               .set(employeeUpdates.toMap());
         }
@@ -87,12 +90,12 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
             .doc(employeeUpdates.employeeID)
             .update({'email': newEmail});
         final employeeUpdatesDoc = await firestore
-            .collection(employeesUpdates)
+            .collection(employeesUpdateRequests)
             .doc(employeeUpdates.employeeID)
             .get();
         if (employeeUpdatesDoc.exists) {
           await firestore
-              .collection(employeesUpdates)
+              .collection(employeesUpdateRequests)
               .doc(employeeUpdates.employeeID)
               .update({
             "newName": employeeUpdates.newName,
@@ -103,7 +106,7 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
           });
         } else {
           await firestore
-              .collection(employeesUpdates)
+              .collection(employeesUpdateRequests)
               .doc(employeeUpdates.employeeID)
               .set(employeeUpdates.toMap());
         }
