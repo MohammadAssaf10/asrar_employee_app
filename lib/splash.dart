@@ -26,8 +26,9 @@ class SplashScreen extends StatelessWidget {
               Navigator.pushNamed(context, Routes.homeRoute);
             },
             child: const Text('Home'),
-          ),ElevatedButton(
-            onPressed: () {
+          ),
+          ElevatedButton(
+            onPressed: () async {
               BlocProvider.of<AuthenticationBloc>(context).add(LogOut());
             },
             child: const Text('logOut'),

@@ -9,4 +9,5 @@ abstract class EmployeeRepository {
   Future<Either<Failure, Unit>> updateEmployeeInfo(
       EmployeeUpdatesRequest employeeUpdates, String newEmail);
   Future<Either<Failure, Unit>> updatePassword(String newPassword);
+  Future<Either<Failure, List<String>>> getEmployeeTokenList();
 }

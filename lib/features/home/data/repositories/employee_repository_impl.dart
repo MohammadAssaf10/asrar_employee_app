@@ -115,4 +115,25 @@ class EmployeeRepositoryImpl extends EmployeeRepository {
       return Left(DataSourceExceptions.noInternetConnections.getFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<String>>> getEmployeeTokenList() async {
+    if (await networkInfo.isConnected) {
+      try {
+        List<String> employeeTokenList = [];
+        final employeesDoc =
+            await firestore.collection(employeeCollectionPath).get();
+        for (var employee in employeesDoc.docs) {
+          for (String employeeToken in employee['employeeTokenList']) {
+            employeeTokenList.add(employeeToken);
+          }
+        }
+        return Right(employeeTokenList);
+      } catch (e) {
+        return Left(ExceptionHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSourceExceptions.noInternetConnections.getFailure());
+    }
+  }
 }
