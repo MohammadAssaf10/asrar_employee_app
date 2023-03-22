@@ -7,7 +7,9 @@ import '../../../../../config/assets_manager.dart';
 import '../../../../../config/color_manager.dart';
 import '../../../../../config/strings_manager.dart';
 import '../../../../../config/values_manager.dart';
+import '../../../../../core/app/di.dart';
 import '../../../../auth/presentation/bloc/authentication_bloc.dart';
+import '../../../../chat/presentation/blocs/support_chat/support_chat_bloc.dart';
 import '../../blocs/employee_bloc/employee_bloc.dart';
 import '../../widgets/general/navigation_bar_bottom.dart';
 import 'customers_service_screen.dart';
@@ -27,10 +29,14 @@ class MainView extends StatelessWidget {
         Scaffold(
           body: PageView(
             onPageChanged: (v) {
-              final authState = BlocProvider.of<AuthenticationBloc>(context).state;
+              final authState =
+                  BlocProvider.of<AuthenticationBloc>(context).state;
               if (v == 4 && authState is AuthenticationSuccess) {
                 BlocProvider.of<EmployeeBloc>(context)
                     .add(GetEmployeeInfo(id: authState.employee.employeeID));
+              } else if (v == 3 && authState is AuthenticationSuccess) {
+                initSupportChatModule(authState.employee);
+                BlocProvider.of<SupportChatBloc>(context).add(ChatStarted());
               }
             },
             controller: controller,
@@ -38,7 +44,7 @@ class MainView extends StatelessWidget {
               OrdersScreen(),
               MyWalletScreen(),
               MyOrdersScreen(),
-              CustomersServiceScreen(),
+              SupportScreen(),
               ProfileScreen(),
             ],
           ),
@@ -69,7 +75,7 @@ class MainView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     NavigationBarBottom(
-                      title: AppStrings.customerService.tr(context),
+                      title: AppStrings.support.tr(context),
                       icon: IconAssets.customersService,
                       onPress: () => controller.jumpToPage(3),
                     ),

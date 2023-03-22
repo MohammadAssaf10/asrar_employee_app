@@ -63,7 +63,7 @@ class AppStrings {
   static const String archiveOrder = "archiveOrder";
   static const String myOrders = "myOrders";
   static const String myWallet = "my_wallet";
-  static const String customerService = "customers_service";
+  static const String support = "support";
   static const String asrarForElectronicServices =
       "asrar_for_electronic_services";
   static const String info = "info";

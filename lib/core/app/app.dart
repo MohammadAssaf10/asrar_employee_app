@@ -7,6 +7,7 @@ import '../../config/app_localizations.dart';
 import '../../config/routes_manager.dart';
 import '../../config/theme_manager.dart';
 import '../../features/auth/presentation/bloc/authentication_bloc.dart';
+import '../../features/chat/presentation/blocs/support_chat/support_chat_bloc.dart';
 import '../../features/home/presentation/blocs/employee_bloc/employee_bloc.dart';
 import '../../features/home/presentation/blocs/notification_bloc/notification_bloc.dart';
 import '../../features/home/presentation/blocs/service_order_bloc/service_order_bloc.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<ServiceOrderBloc>(create: (context) => ServiceOrderBloc()),
         BlocProvider<EmployeeBloc>(create: (context) => EmployeeBloc()),
         BlocProvider<NotificationBloc>(create: (context) => NotificationBloc()),
+        BlocProvider<SupportChatBloc>(create: (context) => SupportChatBloc()),
         BlocProvider<AuthenticationBloc>(
             lazy: false,
             create: (context) => AuthenticationBloc.instance..add(AppStarted()))
