@@ -7,6 +7,7 @@ import '../../../../core/data/failure.dart';
 import '../../../auth/domain/entities/employee.dart';
 import '../../domain/entities/service_order.dart';
 import '../../domain/repositories/service_order_repository.dart';
+import 'financial_entitlements_repository.dart';
 
 class FirebaseServiceOrderRepository extends ServiceOrderRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -47,6 +48,10 @@ class FirebaseServiceOrderRepository extends ServiceOrderRepository {
         .collection(FireBaseConstants.serviceOrder)
         .doc(serviceOrder.id.toString())
         .update({"status": OrderStatus.completed.name});
+
+    await FinancialEntitlementsRepository().addFinancialEntitlements(
+        serviceOrder.employee, double.parse(serviceOrder.service.servicePrice));
+
     return const Right(null);
   }
 

@@ -90,6 +90,8 @@
   "price": "Price",
   "accept": "accept",
   "cancel": "cancel",
+  "myEntitlements": "my entitlements",
+  "app fee": "app fee",
 
   "confirm?": "Confirm?",
   "completedSuccessfully": "completed successfully",

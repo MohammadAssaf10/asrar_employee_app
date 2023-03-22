@@ -8,6 +8,7 @@ import '../../config/routes_manager.dart';
 import '../../config/theme_manager.dart';
 import '../../features/auth/presentation/bloc/authentication_bloc.dart';
 import '../../features/home/presentation/blocs/employee_bloc/employee_bloc.dart';
+import '../../features/home/presentation/blocs/my_wallet_bloc/my_wallet_bloc.dart';
 import '../../features/home/presentation/blocs/service_order_bloc/service_order_bloc.dart';
 import '../../language_cubit/language_cubit.dart';
 import 'language.dart';
@@ -16,8 +17,7 @@ class MyApp extends StatelessWidget {
   // named constructor
   const MyApp._internal();
 
-  static const MyApp _instance =
-      MyApp._internal(); // singleton or single instance
+  static const MyApp _instance = MyApp._internal(); // singleton or single instance
 
   factory MyApp() => _instance; // factory
   @override
@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<LanguageCubit>(create: (context) => LanguageCubit()),
         BlocProvider<ServiceOrderBloc>(create: (context) => ServiceOrderBloc()),
+        BlocProvider<MyWalletBloc>(create: (context) => MyWalletBloc()),
         BlocProvider<EmployeeBloc>(create: (context) => EmployeeBloc()),
         BlocProvider<AuthenticationBloc>(
-            lazy: false,
-            create: (context) => AuthenticationBloc.instance..add(AppStarted()))
+            lazy: false, create: (context) => AuthenticationBloc.instance..add(AppStarted()))
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 690),
@@ -51,8 +51,7 @@ class MyApp extends StatelessWidget {
                 locale: state.locale,
                 localeResolutionCallback: (deviceLocale, supportedLocales) {
                   for (var locale in supportedLocales) {
-                    if (deviceLocale != null &&
-                        deviceLocale.languageCode == locale.languageCode) {
+                    if (deviceLocale != null && deviceLocale.languageCode == locale.languageCode) {
                       return deviceLocale;
                     }
                   }
