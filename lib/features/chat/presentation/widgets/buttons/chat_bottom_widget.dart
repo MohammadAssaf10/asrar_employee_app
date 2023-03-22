@@ -30,7 +30,7 @@ class _ChatBottomState extends State<ChatBottom> {
     var authState = BlocProvider.of<AuthenticationBloc>(context).state;
     if (authState is AuthenticationSuccess) {
       var authUser = authState.employee;
-      sender = Sender(name: authUser.name, id: authUser.email, email: authUser.email);
+      sender = Sender(name: authUser.name, id: authUser.employeeID, email: authUser.email);
     }
     super.initState();
   }

@@ -21,7 +21,7 @@ class ChatTextField extends StatelessWidget {
     var authState = BlocProvider.of<AuthenticationBloc>(context).state;
     if (authState is AuthenticationSuccess) {
       var authUser = authState.employee;
-      sender = Sender(name: authUser.name, email: authUser.email, id: authUser.email);
+      sender = Sender(name: authUser.name, email: authUser.email, id: authUser.employeeID);
 
       return Container(
         decoration: BoxDecoration(

@@ -84,7 +84,7 @@ class ChatScreen extends StatelessWidget {
                     var message = state.messagesList[index];
                     var authState = BlocProvider.of<AuthenticationBloc>(context).state;
                     if (authState is AuthenticationSuccess) {
-                      var isMine = message.isMine(authState.employee.email);
+                      var isMine = message.isMine(authState.employee.employeeID);
 
                       return Row(
                         textDirection: TextDirection.rtl,
