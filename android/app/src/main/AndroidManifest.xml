@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.asrar_employee_app">
    <application
-        android:label="asrar_employee_app"
+        android:label="تحكم أسرار"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

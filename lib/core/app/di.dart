@@ -11,9 +11,12 @@ import '../../features/chat/data/repositories/firebase_chat_repository.dart';
 import '../../features/chat/domain/repositories/chat_repository.dart';
 import '../../features/home/data/repositories/employee_repository_impl.dart';
 import '../../features/home/data/repositories/firebase_service_order_repository.dart';
+import '../../features/home/data/repositories/notification_repository_impl.dart';
 import '../../features/home/domain/entities/service_order.dart';
 import '../../features/home/domain/repositories/employee_repository.dart';
+import '../../features/home/domain/repositories/notification_repository.dart';
 import '../../features/home/domain/repositories/service_order_repository.dart';
+import '../network/dio_factory.dart';
 import '../network/network_info.dart';
 
 final GetIt instance = GetIt.instance;
@@ -25,6 +28,8 @@ Future<void> initAppModule() async {
   final sharedPref = await SharedPreferences.getInstance();
 
   instance.registerLazySingleton<SharedPreferences>(() => sharedPref);
+  // dio factory
+  instance.registerLazySingleton<DioFactory>(() => DioFactory());
 
   // auth pref instance
   instance.registerLazySingleton<AuthPreferences>(
@@ -37,7 +42,10 @@ Future<void> initAppModule() async {
   instance
       .registerLazySingleton<FirebaseAuthHelper>(() => FirebaseAuthHelper());
   instance.registerLazySingleton<EmployeeRepository>(
-    () => EmployeeRepositoryImpl(networkInfo: instance()),
+    () => EmployeeRepositoryImpl(networkInfo: instance<NetworkInfo>()),
+  );
+  instance.registerLazySingleton<NotificationRepository>(
+    () => NotificationRepositoryImpl(networkInfo: instance<NetworkInfo>()),
   );
 }
 

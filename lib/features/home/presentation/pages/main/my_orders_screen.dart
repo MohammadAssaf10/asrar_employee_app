@@ -4,10 +4,12 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../../config/app_localizations.dart';
 import '../../../../../config/assets_manager.dart';
+import '../../../../../config/routes_manager.dart';
 import '../../../../../config/strings_manager.dart';
 import '../../../../../core/app/constants.dart';
 import '../../../../../core/app/functions.dart';
 import '../../../../auth/presentation/bloc/authentication_bloc.dart';
+import '../../blocs/notification_bloc/notification_bloc.dart';
 import '../../blocs/service_order_bloc/service_order_bloc.dart';
 import '../../widgets/general/drawer.dart';
 import '../../widgets/general/empty_list_view.dart';
@@ -34,8 +36,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              // TODO: navigate to notification view
+            onPressed: () async {
+              final state = BlocProvider.of<AuthenticationBloc>(context).state;
+              if (state is AuthenticationSuccess) {
+                BlocProvider.of<NotificationBloc>(context).add(
+                    GetEmployeeNotifications(
+                        employeeID: state.employee.employeeID));
+                Navigator.pushNamed(context, Routes.notificationRoute);
+              }
             },
             icon: SvgPicture.asset(IconAssets.notification),
           ),
@@ -56,7 +64,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             alignment: Alignment.center,
             firstChild: const CurrentOrders(),
             secondChild: const ArchiveOrders(),
-            crossFadeState: isFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            crossFadeState:
+                isFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
             duration: const Duration(milliseconds: 250),
           ),
         ],
@@ -80,7 +89,8 @@ class _CurrentOrdersState extends State<CurrentOrders> {
     super.initState();
     var serviceOrderBloc = BlocProvider.of<ServiceOrderBloc>(context);
     var authBlocState = BlocProvider.of<AuthenticationBloc>(context).state;
-    if (serviceOrderBloc.state.currentOrderList.isEmpty && authBlocState is AuthenticationSuccess) {
+    if (serviceOrderBloc.state.currentOrderList.isEmpty &&
+        authBlocState is AuthenticationSuccess) {
       serviceOrderBloc.add(GetCurrentOrders(employee: authBlocState.employee));
     }
   }
@@ -92,7 +102,8 @@ class _CurrentOrdersState extends State<CurrentOrders> {
         var serviceOrderBloc = BlocProvider.of<ServiceOrderBloc>(context);
         var authBlocState = BlocProvider.of<AuthenticationBloc>(context).state;
         if (authBlocState is AuthenticationSuccess) {
-          serviceOrderBloc.add(GetCurrentOrders(employee: authBlocState.employee));
+          serviceOrderBloc
+              .add(GetCurrentOrders(employee: authBlocState.employee));
         }
       },
       child: SingleChildScrollView(
@@ -148,7 +159,8 @@ class _ArchiveOrdersState extends State<ArchiveOrders> {
     super.initState();
     var serviceOrderBloc = BlocProvider.of<ServiceOrderBloc>(context);
     var authBlocState = BlocProvider.of<AuthenticationBloc>(context).state;
-    if (serviceOrderBloc.state.archiveOrderList.isEmpty && authBlocState is AuthenticationSuccess) {
+    if (serviceOrderBloc.state.archiveOrderList.isEmpty &&
+        authBlocState is AuthenticationSuccess) {
       serviceOrderBloc.add(GetOrdersArchive(employee: authBlocState.employee));
     }
   }
@@ -160,7 +172,8 @@ class _ArchiveOrdersState extends State<ArchiveOrders> {
         var serviceOrderBloc = BlocProvider.of<ServiceOrderBloc>(context);
         var authBlocState = BlocProvider.of<AuthenticationBloc>(context).state;
         if (authBlocState is AuthenticationSuccess) {
-          serviceOrderBloc.add(GetOrdersArchive(employee: authBlocState.employee));
+          serviceOrderBloc
+              .add(GetOrdersArchive(employee: authBlocState.employee));
         }
       },
       child: SingleChildScrollView(

@@ -11,6 +11,7 @@ import '../features/chat/presentation/blocs/chat_bloc/chat_bloc.dart';
 import '../features/chat/presentation/pages/chat_screen.dart';
 import '../features/home/domain/entities/service_order.dart';
 import '../features/home/presentation/pages/main/main_view.dart';
+import '../features/home/presentation/pages/main/notification_screen.dart';
 import '../features/home/presentation/pages/main/your_account.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
@@ -21,6 +22,7 @@ class Routes {
 
   static const String homeRoute = "/home";
   static const String chatRoute = "/chat";
+  static const String notificationRoute = "/notification";
 
   // auth rotes
   static const String auth = '/auth';
@@ -50,6 +52,8 @@ class RouteGenerator {
 
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) => const MainView());
+      case Routes.notificationRoute:
+        return MaterialPageRoute(builder: (_) => const NotificationScreen());
       case Routes.yourAccountRoute:
         {
           final arg = settings.arguments as Employee;

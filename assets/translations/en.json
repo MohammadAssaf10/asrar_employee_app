@@ -90,6 +90,8 @@
   "price": "Price",
   "accept": "accept",
   "cancel": "cancel",
+  "no_notifications": "No Notifications",
+  "notifications": "Notifications",
 
   "confirm?": "Confirm?",
   "completedSuccessfully": "completed successfully",
