@@ -6,8 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/auth/data/data_sources/auth_prefs.dart';
 import '../../features/auth/data/data_sources/firebase_auth_helper.dart';
 import '../../features/auth/data/repository/firebase_auth_repository.dart';
+import '../../features/auth/domain/entities/employee.dart';
 import '../../features/auth/domain/repository/auth_repository.dart';
 import '../../features/chat/data/repositories/firebase_chat_repository.dart';
+import '../../features/chat/data/repositories/support_chat_repository.dart';
 import '../../features/chat/domain/repositories/chat_repository.dart';
 import '../../features/home/data/repositories/employee_repository_impl.dart';
 import '../../features/home/data/repositories/firebase_service_order_repository.dart';
@@ -61,6 +63,13 @@ void initHomeModule() {
     instance.registerLazySingleton<ServiceOrderRepository>(
         () => FirebaseServiceOrderRepository());
   }
+}
+
+void initSupportChatModule(Employee employee) {
+  instance.registerLazySingleton<SupportChatRepository>(() {
+    return SupportChatRepository(
+        FirebaseFirestore.instance, instance<NetworkInfo>(), employee);
+  });
 }
 
 void initChatModule(ServiceOrder serviceOrder) {
