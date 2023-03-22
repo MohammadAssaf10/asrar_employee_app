@@ -28,15 +28,26 @@ class FirebaseServiceOrderRepository extends ServiceOrderRepository {
   }
 
   @override
-  Future<Either<Failure, void>> cancelOrder(ServiceOrder serviceOrder) {
-    // TODO: implement cancelOrder
-    throw UnimplementedError();
+  Future<Either<Failure, void>> cancelOrder(ServiceOrder serviceOrder) async {
+    try {
+      await _firestore
+          .collection(FireBaseConstants.serviceOrder)
+          .doc(serviceOrder.id.toString())
+          .update({"employee": null, 'status': 'pending'});
+
+      return const Right(null);
+    } catch (e) {
+      return Left(ExceptionHandler.handle(e).failure);
+    }
   }
 
   @override
-  Future<Either<Failure, void>> finishOrder(ServiceOrder serviceOrder) {
-    // TODO: implement finishOrder
-    throw UnimplementedError();
+  Future<Either<Failure, void>> finishOrder(ServiceOrder serviceOrder) async {
+    await _firestore
+        .collection(FireBaseConstants.serviceOrder)
+        .doc(serviceOrder.id.toString())
+        .update({"status": OrderStatus.completed.name});
+    return const Right(null);
   }
 
   @override

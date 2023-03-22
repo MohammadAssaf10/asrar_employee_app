@@ -69,8 +69,48 @@ class ServiceOrderBloc extends Bloc<ServiceOrderEvent, ServiceOrderState> {
       );
     });
 
-    on<CancelOrder>((event, emit) {});
+    on<CancelOrder>((event, emit) async {
+      emit(state.copyWith(processStatus: Status.loading));
 
-    on<CompleteOrder>((event, emit) {});
+      (await _serviceOrderRepository.cancelOrder(event.serviceOrder)).fold(
+        (l) {
+          emit(state.copyWith(processStatus: Status.failed, message: l.message));
+        },
+        (r) {
+          var currentOrderList = state.currentOrderList;
+
+          currentOrderList.remove(event.serviceOrder);
+
+          currentOrderList.sort((a, b) => (a.id < b.id) ? 1 : 0);
+
+          emit(state.copyWith(
+            processStatus: Status.success,
+            currentOrder: currentOrderList,
+          ));
+        },
+      );
+    });
+
+    on<CompleteOrder>((event, emit) async {
+      emit(state.copyWith(processStatus: Status.loading));
+
+      (await _serviceOrderRepository.finishOrder(event.serviceOrder)).fold(
+        (l) {
+          emit(state.copyWith(processStatus: Status.failed, message: l.message));
+        },
+        (r) {
+          var currentOrderList = state.currentOrderList;
+          var archiveOrderList = state.archiveOrderList;
+          currentOrderList.remove(event.serviceOrder);
+          archiveOrderList.add(event.serviceOrder.copyWith(status: OrderStatus.completed.name));
+          currentOrderList.sort((a, b) => (a.id < b.id) ? 1 : 0);
+          archiveOrderList.sort((a, b) => (a.id < b.id) ? 1 : 0);
+          emit(state.copyWith(
+              processStatus: Status.success,
+              currentOrder: currentOrderList,
+              archiveOrder: archiveOrderList));
+        },
+      );
+    });
   }
 }
