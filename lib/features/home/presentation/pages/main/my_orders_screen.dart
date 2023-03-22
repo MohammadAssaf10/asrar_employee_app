@@ -109,6 +109,9 @@ class _CurrentOrdersState extends State<CurrentOrders> {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: BlocConsumer<ServiceOrderBloc, ServiceOrderState>(
+          listenWhen: (previous, current) {
+            return previous.currentOrderStatus != current.currentOrderStatus;
+          },
           listener: (context, state) {
             if (state.currentOrderStatus == Status.loading) {
               showCustomDialog(context);
@@ -179,6 +182,9 @@ class _ArchiveOrdersState extends State<ArchiveOrders> {
       child: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: BlocConsumer<ServiceOrderBloc, ServiceOrderState>(
+          listenWhen: (previous, current) {
+            return previous.archiveOrderStatus != current.archiveOrderStatus;
+          },
           listener: (context, state) {
             if (state.archiveOrderStatus == Status.loading) {
               showCustomDialog(context);

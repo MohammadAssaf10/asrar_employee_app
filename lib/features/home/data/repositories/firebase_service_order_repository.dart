@@ -7,6 +7,7 @@ import '../../../../core/data/failure.dart';
 import '../../../auth/domain/entities/employee.dart';
 import '../../domain/entities/service_order.dart';
 import '../../domain/repositories/service_order_repository.dart';
+import 'financial_entitlements_repository.dart';
 
 class FirebaseServiceOrderRepository extends ServiceOrderRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -28,15 +29,30 @@ class FirebaseServiceOrderRepository extends ServiceOrderRepository {
   }
 
   @override
-  Future<Either<Failure, void>> cancelOrder(ServiceOrder serviceOrder) {
-    // TODO: implement cancelOrder
-    throw UnimplementedError();
+  Future<Either<Failure, void>> cancelOrder(ServiceOrder serviceOrder) async {
+    try {
+      await _firestore
+          .collection(FireBaseConstants.serviceOrder)
+          .doc(serviceOrder.id.toString())
+          .update({"employee": null, 'status': 'pending'});
+
+      return const Right(null);
+    } catch (e) {
+      return Left(ExceptionHandler.handle(e).failure);
+    }
   }
 
   @override
-  Future<Either<Failure, void>> finishOrder(ServiceOrder serviceOrder) {
-    // TODO: implement finishOrder
-    throw UnimplementedError();
+  Future<Either<Failure, void>> finishOrder(ServiceOrder serviceOrder) async {
+    await _firestore
+        .collection(FireBaseConstants.serviceOrder)
+        .doc(serviceOrder.id.toString())
+        .update({"status": OrderStatus.completed.name});
+
+    await FinancialEntitlementsRepository().addFinancialEntitlements(
+        serviceOrder.employee, double.parse(serviceOrder.service.servicePrice));
+
+    return const Right(null);
   }
 
   @override
