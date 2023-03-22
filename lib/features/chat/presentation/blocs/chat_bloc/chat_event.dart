@@ -7,7 +7,7 @@ abstract class ChatEvent extends Equatable {
 class ChatStarted extends ChatEvent {
   final ServiceOrder serviceOrder;
 
-  ChatStarted({
+  const ChatStarted({
     required this.serviceOrder,
   });
 
@@ -23,7 +23,7 @@ class ChatEnded extends ChatEvent {
 class TextMessageSent extends ChatEvent {
   final TextMessage message;
 
-  TextMessageSent({required this.message});
+  const TextMessageSent({required this.message});
 
   @override
   List<Object?> get props => [message];
@@ -33,16 +33,25 @@ class ImageMessageSent extends ChatEvent {
   final ImageMessage message;
   final XFile image;
 
-  ImageMessageSent(this.image, this.message);
+  const ImageMessageSent(this.image, this.message);
 
   @override
   List<Object?> get props => [image, message];
+}
+class VoiceMessageSent extends ChatEvent {
+  final VoiceMessage message;
+  final XFile voice;
+
+  const VoiceMessageSent(this.voice, this.message);
+
+  @override
+  List<Object?> get props => [voice, message];
 }
 
 class _MessageReserved extends ChatEvent {
   final List<Message> messageList;
 
-  _MessageReserved({
+  const _MessageReserved({
     required this.messageList,
   });
 

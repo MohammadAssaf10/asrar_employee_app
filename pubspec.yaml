@@ -57,7 +57,11 @@ dependencies:
   flutter_svg: ^1.1.6
   image_picker: ^0.8.6
   intl_phone_field: ^3.1.0
-  # path_provider: ^2.0.11
+  flutter_sound: ^9.2.13
+  permission_handler: ^10.2.0
+  path_provider: ^2.0.13
+  intl: ^0.17.0
+  audioplayers: ^3.0.1
 
 dev_dependencies:
   flutter_test:

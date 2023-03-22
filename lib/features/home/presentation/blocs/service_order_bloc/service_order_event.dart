@@ -55,10 +55,10 @@ class CancelOrder extends ServiceOrderEvent {
   List<Object?> get props => [serviceOrder];
 }
 
-class FinishOrder extends ServiceOrderEvent {
+class CompleteOrder extends ServiceOrderEvent {
   final ServiceOrder serviceOrder;
 
-  const FinishOrder({
+  const CompleteOrder({
     required this.serviceOrder,
   });
 

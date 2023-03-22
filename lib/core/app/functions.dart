@@ -151,6 +151,61 @@ void showCustomDialog(BuildContext context,
   });
 }
 
+Future<bool> showConfirmDialog(BuildContext context,
+    {String? text,
+    Function? executeWhenConfirm,
+    Function? executeWhenCancel}) async {
+  bool confirm = false;
+
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                text?.tr(context) ?? AppStrings.confirm.tr(context),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              SizedBox(height: AppSize.s10.h),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      confirm = true;
+                      if (executeWhenConfirm != null) executeWhenConfirm();
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      AppStrings.confirm.tr(context).substring(
+                          0, AppStrings.confirm.tr(context).length - 1),
+                    ),
+                  ),
+                  SizedBox(width: AppSize.s10.h),
+                  OutlinedButton(
+                    onPressed: () {
+                      confirm = false;
+                      if (executeWhenCancel != null) executeWhenCancel();
+                      Navigator.pop(context);
+                    },
+                    child: Text(AppStrings.cancel.tr(context)),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+
+  return confirm;
+}
+
 Future<FileEntities> uploadFile(String path, XFile xFile) async {
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   final Reference ref = firebaseStorage.ref(path);

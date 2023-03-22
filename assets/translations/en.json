@@ -91,6 +91,13 @@
   "accept": "accept",
   "cancel": "cancel",
 
+  "confirm?": "Confirm?",
+  "completedSuccessfully": "completed successfully",
+  "cancelOrder": "cancel the order",
+  "cantCancel": "cant cancel",
+  "riseAComplaint": "rise a complaint",
+
+
   "about_us": "About Us"
 
 }

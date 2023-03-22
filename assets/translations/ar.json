@@ -88,6 +88,12 @@
   "accept": "قبول",
   "cancel": "الإلغاء",
 
+  "confirm?": "تاكيد؟",
+  "completedSuccessfully": "تمت بنجاح",
+  "cancelOrder": "الغاء الطلب",
+  "cantCancel": "لا يمكن الالغاء",
+  "riseAComplaint": "رفع شكوى",
+
 
   "terms_of_use": "شروط الاستخدام"
 }
