@@ -82,6 +82,8 @@ class AppStrings {
   static const String fieldCantBeEmpty = "field_cant_be_empty";
   static const String enterNewPassword = "enter_new_password";
   static const String searchCountry = "search_country";
+  static const String noNotifications = "no_notifications";
+  static const String notifications = "notifications";
 
   static const String termsOfUse = "terms_of_use";
   static const String pending = "pending";

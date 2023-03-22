@@ -55,6 +55,8 @@
   "Request_added_to_update_the_information": "تمت إضافة طلب لتحديث المعلومات",
   "username_should_at_least_3_character": "يجب ألا يقل اسم المستخدم عن 3 أحرف",
   "please_enter_username": "الرجاء إدخال اسم المستخدم",
+  "notifications": "الإشعارات",
+  "no_notifications": "لا توجد إشعارات",
 
   "asrar": "اسرار",
   "home": "البيت",
