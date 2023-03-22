@@ -71,19 +71,23 @@ class MessageDetails {
 }
 
 class Sender {
+  String id;
   String name;
   String email;
 
   Sender({
+    required this.id,
     required this.name,
     required this.email,
   });
 
   Sender copyWith({
+    String? id,
     String? name,
     String? email,
   }) {
     return Sender(
+      id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
     );
@@ -92,6 +96,7 @@ class Sender {
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
+    result.addAll({'id': id});
     result.addAll({'name': name});
     result.addAll({'email': email});
 
@@ -100,6 +105,7 @@ class Sender {
 
   factory Sender.fromMap(Map<String, dynamic> map) {
     return Sender(
+      id: map['id'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
     );
@@ -110,17 +116,17 @@ class Sender {
   factory Sender.fromJson(String source) => Sender.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Sender(name: $name, email: $email)';
+  String toString() => 'Sender(id: $id, name: $name, email: $email)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Sender && other.name == name && other.email == email;
+    return other is Sender && other.id == id && other.name == name && other.email == email;
   }
 
   @override
-  int get hashCode => name.hashCode ^ email.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode ^ email.hashCode;
 }
 
 abstract class Message {
@@ -128,17 +134,20 @@ abstract class Message {
 
   Message({required this.details});
 
-  bool isMine(String email) => email == details.sender.email;
+  bool isMine(String id) => id == details.sender.id;
 
   factory Message.fromMap(Map<String, dynamic> map) {
     String? messageType = map['details']['type'];
 
-    if (messageType == MessageType.text.name)
+    if (messageType == MessageType.text.name) {
       return TextMessage.fromMap(map);
-    else if (messageType == MessageType.image.name)
+    } else if (messageType == MessageType.image.name) {
       return ImageMessage.fromMap(map);
-    else
+    } else if (messageType == MessageType.audio.name) {
+      return VoiceMessage.fromMap(map);
+    } else {
       return EmptyMessage.fromMap(map);
+    }
   }
 
   Map<String, dynamic> toMap() {
@@ -175,6 +184,7 @@ class TextMessage extends Message {
     );
   }
 
+  @override
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
@@ -235,7 +245,7 @@ class ImageMessage extends Message {
     );
   }
 
-
+  @override
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
 
@@ -268,6 +278,61 @@ class ImageMessage extends Message {
 
   @override
   int get hashCode => imageUrl.hashCode ^ details.hashCode;
+}
+
+class VoiceMessage extends Message {
+  String voiceUrl;
+
+  VoiceMessage({required this.voiceUrl, required super.details});
+
+  VoiceMessage copyWith({String? voiceUrl, MessageDetails? details}) {
+    return VoiceMessage(
+      voiceUrl: voiceUrl ?? this.voiceUrl,
+      details: details ?? this.details,
+    );
+  }
+
+  /// voiceUrl provided when upload image finish
+  factory VoiceMessage.create(Sender sender) {
+    return VoiceMessage(
+        voiceUrl: 'voiceUrl',
+        details: MessageDetails(
+            sender: sender, createdAt: Timestamp.now(), type: MessageType.audio.name));
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'voiceUrl': voiceUrl});
+    result.addAll({'details': details.toMap()});
+
+    return result;
+  }
+
+  factory VoiceMessage.fromMap(Map<String, dynamic> map) {
+    return VoiceMessage(
+      voiceUrl: map['voiceUrl'] ?? '',
+      details: MessageDetails.fromMap(map['details']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory VoiceMessage.fromJson(String source) => VoiceMessage.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'VoiceMessage(voiceUrl: $voiceUrl, details: $details)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is VoiceMessage && other.voiceUrl == voiceUrl;
+  }
+
+  @override
+  int get hashCode => voiceUrl.hashCode;
 }
 
 class EmptyMessage extends Message {

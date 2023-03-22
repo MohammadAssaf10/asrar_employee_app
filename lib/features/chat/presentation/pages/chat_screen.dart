@@ -1,30 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../config/color_manager.dart';
+import '../../../../config/styles_manager.dart';
+import '../../../../config/values_manager.dart';
+import '../../../../core/app/constants.dart';
 import '../../../../core/app/functions.dart';
 import '../../../auth/presentation/bloc/authentication_bloc.dart';
+import '../../../home/domain/entities/service_order.dart';
+import '../../../home/presentation/widgets/general/cached_network_image_widget.dart';
 import '../blocs/chat_bloc/chat_bloc.dart';
 import '../functions/functions.dart';
-import '../widgets/chat_bottom_widget.dart';
-import '../widgets/message_widget.dart';
+import '../widgets/buttons/chat_bottom_widget.dart';
+import '../widgets/messages/message_widget.dart';
 
 class ChatScreen extends StatelessWidget {
-  ChatScreen({super.key});
+  ChatScreen({super.key, required this.serviceOrder});
 
+  final ServiceOrder serviceOrder;
   final ScrollController _scrollController = ScrollController();
+
+  AppBar getAppBar(BuildContext context) {
+    return AppBar(
+      centerTitle: false,
+      titleSpacing: -5.w,
+      title: Row(
+        children: [
+          serviceOrder.user.imageURL.isNotEmpty
+              ? CachedNetworkImageWidget(
+                  image: serviceOrder.user.imageURL,
+                  shapeBorder: const CircleBorder(),
+                  height: AppSize.s45.h,
+                  width: AppSize.s45.w,
+                  boxFit: BoxFit.cover,
+                  blurRadius: 0,
+                )
+              : Card(
+                  shape: const CircleBorder(),
+                  child: Icon(
+                    Icons.person,
+                    size: AppSize.s45.sp,
+                    color: ColorManager.grey,
+                  ),
+                ),
+          SizedBox(width: AppSize.s10.w),
+          Text(
+            serviceOrder.user.name,
+            style: getAlmaraiBoldStyle(
+              fontSize: AppSize.s18.sp,
+              color: ColorManager.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(''),
-      ),
+      appBar: getAppBar(context),
       body: Column(
         children: [
           Expanded(
             child: BlocConsumer<ChatBloc, ChatState>(
-              listenWhen: (previous, current) =>
-                  previous.fileUploadingStatus != current.fileUploadingStatus,
               listener: (context, state) {
                 if (state.fileUploadingStatus == Status.loading) {
                   showCustomDialog(context);
@@ -67,10 +107,12 @@ class ChatScreen extends StatelessWidget {
               },
             ),
           ),
-          ChatBottom(onSended: () {
-            _scrollController.animateTo(_scrollController.position.minScrollExtent,
-                duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
-          }),
+          ChatBottom(
+              serviceOrder: serviceOrder,
+              onSended: () {
+                _scrollController.animateTo(_scrollController.position.minScrollExtent,
+                    duration: const Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+              }),
         ],
       ),
     );

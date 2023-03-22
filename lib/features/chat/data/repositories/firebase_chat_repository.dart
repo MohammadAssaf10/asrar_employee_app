@@ -12,6 +12,7 @@ import '../../domain/entities/message.dart';
 import '../../domain/repositories/chat_repository.dart';
 
 class FirebaseChatRepository extends ChatRepository {
+  // ignore: unused_field
   final FirebaseFirestore _firestore;
   final NetworkInfo _networkInfo;
   final ServiceOrder serviceOrder;
@@ -33,7 +34,7 @@ class FirebaseChatRepository extends ChatRepository {
     try {
       await orderReference.collection(FireBaseConstants.messages).add(message.toMap());
 
-      return Right(null);
+      return const Right(null);
     } catch (e) {
       return Left(ExceptionHandler.handle(e).failure);
     }
@@ -41,8 +42,6 @@ class FirebaseChatRepository extends ChatRepository {
 
   @override
   Future<Either<Failure, Stream<List<Message>>>> startChatStream() async {
-
-  print(serviceOrder);
     if (!await _networkInfo.isConnected) {
       return Left(DataSourceExceptions.noInternetConnections.getFailure());
     }
@@ -67,6 +66,19 @@ class FirebaseChatRepository extends ChatRepository {
     try {
       var file = await uploadFile(
           '${FireBaseConstants.messages}/${serviceOrder.id}/images/${image.name}', image);
+      print(file.url);
+      return Right(file.url);
+    } catch (e) {
+      return Left(ExceptionHandler.handle(e).failure);
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String>> uploadVoice(XFile voice)  async{
+    try {
+      var file = await uploadFile(
+          '${FireBaseConstants.messages}/${serviceOrder.id}/voices/${voice.name}', voice);
+      print(file.url);
       return Right(file.url);
     } catch (e) {
       return Left(ExceptionHandler.handle(e).failure);

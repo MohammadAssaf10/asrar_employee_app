@@ -1,6 +1,5 @@
 part of 'service_order_bloc.dart';
 
-enum Status { init, loading, success, failed }
 
 // * when regenerate data class:
 // - in [copyWith] remove the ?? in the message

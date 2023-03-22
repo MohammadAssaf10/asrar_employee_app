@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../../core/app/constants.dart';
 import '../../../../../core/app/di.dart';
 import '../../../../auth/domain/entities/employee.dart';
 import '../../../domain/entities/service_order.dart';
@@ -13,7 +14,6 @@ class ServiceOrderBloc extends Bloc<ServiceOrderEvent, ServiceOrderState> {
   final ServiceOrderRepository _serviceOrderRepository = instance();
 
   ServiceOrderBloc() : super(ServiceOrderState.init()) {
-    
     on<GetPendingOrders>((event, emit) async {
       emit(state.copyWith(pendingOrderStatus: Status.loading));
       (await _serviceOrderRepository.getPendingOrders()).fold(
@@ -71,6 +71,6 @@ class ServiceOrderBloc extends Bloc<ServiceOrderEvent, ServiceOrderState> {
 
     on<CancelOrder>((event, emit) {});
 
-    on<FinishOrder>((event, emit) {});
+    on<CompleteOrder>((event, emit) {});
   }
 }

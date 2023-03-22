@@ -126,4 +126,11 @@ class AppStrings {
   static const String noDefaultBucket = "no_default_bucket";
   static const String cannotSliceBlob = "cannot_slice_blob";
   static const String serverFileWrongSize = "server_file_wrong_size";
+
+  static const String confirm = 'confirm?';
+
+  static const String completedSuccessfully = 'completedSuccessfully';
+  static const String cancelOrder = 'cancelOrder';
+  static const String cantCancel = 'cantCancel';
+  static const String riseAComplaint = 'riseAComplaint';
 }

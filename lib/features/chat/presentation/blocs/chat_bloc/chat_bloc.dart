@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../../core/app/constants.dart';
 import '../../../../../core/app/di.dart';
 import '../../../../home/domain/entities/service_order.dart';
 import '../../../domain/entities/message.dart';
@@ -13,7 +14,7 @@ part 'chat_event.dart';
 part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatRepository _chatRepository = instance();
+  final ChatRepository _chatRepository = instance();
   StreamSubscription? _messageStream;
 
   ChatBloc() : super(ChatState.init()) {
@@ -60,6 +61,28 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             emit(state.copyWith(fileUploadingStatus: Status.success));
 
             var imageMessage = event.message.copyWith(imageUrl: r);
+            (await _chatRepository.sendMessage(imageMessage)).fold(
+              (l) {
+                emit(state.copyWith(status: Status.failed, message: l.message));
+              },
+              (r) {},
+            );
+          },
+        );
+      },
+    );
+
+    on<VoiceMessageSent>(
+      (event, emit) async {
+        emit(state.copyWith(fileUploadingStatus: Status.loading));
+        await (await _chatRepository.uploadVoice(event.voice)).fold(
+          (l) {
+            emit(state.copyWith(fileUploadingStatus: Status.failed, message: l.message));
+          },
+          (r) async {
+            emit(state.copyWith(fileUploadingStatus: Status.success));
+
+            var imageMessage = event.message.copyWith(voiceUrl: r);
             (await _chatRepository.sendMessage(imageMessage)).fold(
               (l) {
                 emit(state.copyWith(status: Status.failed, message: l.message));

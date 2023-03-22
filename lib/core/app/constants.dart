@@ -6,4 +6,5 @@ class FireBaseConstants {
   static String messages = "messages";
 }
 
-enum OrderStatus { inProgress, pending, finished, canceled }
+enum OrderStatus { inProgress, pending, completed, canceled }
+enum Status { init, loading, success, failed }
