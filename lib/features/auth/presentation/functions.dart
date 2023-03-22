@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../config/assets_manager.dart';
+import '../../../config/routes_manager.dart';
 import '../../../config/strings_manager.dart';
 import '../../../config/app_localizations.dart';
 import '../../../core/app/functions.dart';
@@ -20,17 +21,14 @@ manageDialog(BuildContext context, AuthenticationState state) {
       showCustomDialog(context);
     }
   } else if (state is AuthenticationFailed) {
-    showCustomDialog(context,
-        jsonPath: JsonAssets.error, message: state.message.tr(context));
+    showCustomDialog(context, jsonPath: JsonAssets.error, message: state.message.tr(context));
   } else if (state is AuthenticationSuccess) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       dismissDialog(context);
-      // TODO: navigate to main view
-      //Navigator.pushReplacementNamed(context, Routes.splashRoute);
+      Navigator.pushReplacementNamed(context, Routes.homeRoute);
     });
   } else if (state is ResetPasswordRequestSuccess) {
-    showCustomDialog(context,
-        message: AppStrings.resetEmailSendMessage.tr(context));
+    showCustomDialog(context, message: AppStrings.resetEmailSendMessage.tr(context));
   }
 }
 
@@ -46,15 +44,13 @@ Future<XFile?> openImagePicker(BuildContext context) async {
           SimpleDialogOption(
             child: Text(AppStrings.camera.tr(context)),
             onPressed: () async {
-              Navigator.pop(
-                  context, await picker.pickImage(source: ImageSource.camera));
+              Navigator.pop(context, await picker.pickImage(source: ImageSource.camera));
             },
           ),
           SimpleDialogOption(
             child: Text(AppStrings.gallery.tr(context)),
             onPressed: () async {
-              Navigator.pop(
-                  context, await picker.pickImage(source: ImageSource.gallery));
+              Navigator.pop(context, await picker.pickImage(source: ImageSource.gallery));
             },
           ),
         ],
