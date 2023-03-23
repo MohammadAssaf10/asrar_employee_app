@@ -32,10 +32,12 @@ class GetOrdersArchive extends ServiceOrderEvent {
 }
 
 class AcceptOrder extends ServiceOrderEvent {
+  final BuildContext context;
   final Employee employee;
   final ServiceOrder serviceOrder;
 
   const AcceptOrder({
+    required this.context,
     required this.employee,
     required this.serviceOrder,
   });

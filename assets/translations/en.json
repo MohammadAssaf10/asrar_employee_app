@@ -94,6 +94,7 @@
   "notifications": "Notifications",
   "myEntitlements": "my entitlements",
   "app fee": "app fee",
+  "dontHavePermission": "Don't Have Permission",
 
   "confirm?": "Confirm?",
   "completedSuccessfully": "completed successfully",

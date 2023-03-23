@@ -1,8 +1,12 @@
+import 'package:asrar_employee_app/config/app_localizations.dart';
+import 'package:asrar_employee_app/config/strings_manager.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../../../../core/app/constants.dart';
 import '../../../../../core/app/di.dart';
+import '../../../../auth/data/data_sources/auth_prefs.dart';
 import '../../../../auth/domain/entities/employee.dart';
 import '../../../domain/entities/service_order.dart';
 import '../../../domain/repositories/service_order_repository.dart';
@@ -57,6 +61,12 @@ class ServiceOrderBloc extends Bloc<ServiceOrderEvent, ServiceOrderState> {
 
     on<AcceptOrder>((event, emit) async {
       emit(state.copyWith(processStatus: Status.loading));
+      if (!instance<AuthPreferences>().canWork()) {
+        emit(state.copyWith(
+            processStatus: Status.failed,
+            message: AppStrings.dontHavePermission.tr(event.context)));
+      }
+
       (await _serviceOrderRepository.acceptOrder(event.employee, event.serviceOrder)).fold(
         (l) {
           emit(state.copyWith(processStatus: Status.failed, message: l.message));

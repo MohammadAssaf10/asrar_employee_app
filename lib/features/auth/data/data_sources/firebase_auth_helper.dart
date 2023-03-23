@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../domain/entities/employee.dart';
 import '../models/requests.dart';
+import 'auth_prefs.dart';
 
 const String employeeCollectionPath = 'Employees';
 
@@ -13,6 +14,11 @@ class FirebaseAuthHelper {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
+  final AuthPreferences authPreferences;
+  FirebaseAuthHelper({
+    required this.authPreferences,
+  });
 
   Future<Employee> login(LoginRequest loginRequest) async {
     final employee = (await _firebaseAuth.signInWithEmailAndPassword(
@@ -24,13 +30,14 @@ class FirebaseAuthHelper {
   Future<Employee> getEmployee(String id) async {
     final employeeMap = (await _firestore.collection(employeeCollectionPath).doc(id).get()).data();
 
-    
-
     if (employeeMap == null) {
       throw FirebaseAuthException(code: "auth/user-not-found");
     }
 
-    return Employee.fromMap(employeeMap);
+    Employee employee = Employee.fromMap(employeeMap);
+    authPreferences.setEmployee(employee);
+
+    return employee;
   }
 
   User? getCurrentUser() {

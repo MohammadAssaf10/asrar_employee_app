@@ -34,15 +34,14 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<DioFactory>(() => DioFactory());
 
   // auth pref instance
-  instance.registerLazySingleton<AuthPreferences>(
-      () => AuthPreferences(instance<SharedPreferences>()));
+  instance
+      .registerLazySingleton<AuthPreferences>(() => AuthPreferences(instance<SharedPreferences>()));
 
   // network info
-  instance.registerLazySingleton<NetworkInfo>(
-      () => NetworkInfoImpl(InternetConnectionChecker()));
+  instance.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(InternetConnectionChecker()));
 
-  instance
-      .registerLazySingleton<FirebaseAuthHelper>(() => FirebaseAuthHelper());
+  instance.registerLazySingleton<FirebaseAuthHelper>(
+      () => FirebaseAuthHelper(authPreferences: instance()));
   instance.registerLazySingleton<EmployeeRepository>(
     () => EmployeeRepositoryImpl(networkInfo: instance<NetworkInfo>()),
   );
@@ -54,21 +53,19 @@ Future<void> initAppModule() async {
 void initAuthenticationModule() {
   if (!GetIt.I.isRegistered<AuthRepository>()) {
     instance.registerLazySingleton<AuthRepository>(
-        () => FirebaseAuthRepository(instance(), instance()));
+        () => FirebaseAuthRepository(instance(), instance(), instance()));
   }
 }
 
 void initHomeModule() {
   if (!GetIt.I.isRegistered<ServiceOrderRepository>()) {
-    instance.registerLazySingleton<ServiceOrderRepository>(
-        () => FirebaseServiceOrderRepository());
+    instance.registerLazySingleton<ServiceOrderRepository>(() => FirebaseServiceOrderRepository());
   }
 }
 
 void initSupportChatModule(Employee employee) {
   instance.registerLazySingleton<SupportChatRepository>(() {
-    return SupportChatRepository(
-        FirebaseFirestore.instance, instance<NetworkInfo>(), employee);
+    return SupportChatRepository(FirebaseFirestore.instance, instance<NetworkInfo>(), employee);
   });
 }
 
@@ -77,6 +74,6 @@ void initChatModule(ServiceOrder serviceOrder) {
     instance.unregister<ChatRepository>();
   }
 
-  instance.registerFactory<ChatRepository>(() => FirebaseChatRepository(
-      FirebaseFirestore.instance, instance<NetworkInfo>(), serviceOrder));
+  instance.registerFactory<ChatRepository>(() =>
+      FirebaseChatRepository(FirebaseFirestore.instance, instance<NetworkInfo>(), serviceOrder));
 }

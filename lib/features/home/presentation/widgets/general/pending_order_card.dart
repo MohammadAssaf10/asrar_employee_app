@@ -130,8 +130,8 @@ showOrderDetailsDialog(BuildContext context, ServiceOrder order) async {
                       onPressed: () {
                         var authState = BlocProvider.of<AuthenticationBloc>(context).state;
                         if (authState is AuthenticationSuccess) {
-                          BlocProvider.of<ServiceOrderBloc>(context)
-                              .add(AcceptOrder(employee: authState.employee, serviceOrder: order));
+                          BlocProvider.of<ServiceOrderBloc>(context).add(AcceptOrder(
+                              employee: authState.employee, serviceOrder: order, context: context));
                           Navigator.pop(context);
                         }
                       },

@@ -53,6 +53,7 @@ class AppStrings {
   static const String selectImageSource = "selectImageSource";
   static const String camera = "camera";
   static const String gallery = "gallery";
+  static const String dontHavePermission = "dontHavePermission";
 
   // home
   static const String asrar = "asrar";

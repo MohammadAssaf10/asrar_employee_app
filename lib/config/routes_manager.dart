@@ -16,11 +16,13 @@ import '../features/home/presentation/pages/main/your_account.dart';
 import '../splash.dart';
 import 'strings_manager.dart';
 
+const bool kProduction = true;
+
 class Routes {
   // home route
-  static const String splashRoute = "/";
+  static const String splashRoute = kProduction ? '/splash' : "/";
 
-  static const String homeRoute = "/home";
+  static const String homeRoute = kProduction ? '/' : "/home";
   static const String chatRoute = "/chat";
   static const String notificationRoute = "/notification";
 
@@ -68,7 +70,9 @@ class RouteGenerator {
             builder: (context) => BlocProvider(
               create: (context) => ChatBloc()..add(ChatStarted(serviceOrder: arg)),
               lazy: false,
-              child:  ChatScreen(serviceOrder: arg,),
+              child: ChatScreen(
+                serviceOrder: arg,
+              ),
             ),
           );
         }
